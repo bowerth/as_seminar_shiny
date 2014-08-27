@@ -16,7 +16,9 @@ knit        : slidify::knit2slides
 Introduce interactive web applications using R shiny and discuss existing projects
 
 - application hosted on [external server](http://oecd-icio.cloudapp.net:3838)
-- applications hosted on [internal server](http://10.101.26.220:3838/industry)
+- applications hosted on [internal server](http://10.101.26.220:3838/industry) (only available from OECD network)
+
+Applications require a modern browser (e.g. Mozilla Firefox or Google Chrome)
 
 --- .class #id 
 
@@ -34,7 +36,7 @@ Introduce interactive web applications using R shiny and discuss existing projec
 
 - pre-calculation vs. on-demand calculation
 - client-side interactivity with javascript: [rCharts](http://rcharts.io/gallery/)
-- see example [STAN > STAN Indicators](http://10.101.26.220:3838/industry)
+- see example [STAN > STAN Indicators](http://10.101.26.220:3838/industry) (only available from OECD network)
 
 --- .class #id 
 
@@ -44,7 +46,7 @@ Introduce interactive web applications using R shiny and discuss existing projec
 - obtain data flows from provider, its dimensions and select codes interacetively
 - send SDMX query to retrieve values
 - transform returned time series into table format, create basic plots and download information
-- see example [SDMX > SDMX Browser](http://10.101.26.220:3838/industry)
+- see example [SDMX > SDMX Browser](http://10.101.26.220:3838/industry) (only available from OECD network)
 
 --- .class #id 
 
