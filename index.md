@@ -32,6 +32,32 @@ Applications require a modern browser (e.g. Mozilla Firefox or Google Chrome)
 
 --- .class #id 
 
+## Motivation: applications for statistical analysis
+
+- separation of analytical projects into statistics and analysis creates frictions
+- design interactive tools that are:
+  - intuitive to use
+  - abstract from the heterogeneity of data sources
+  - include visual representations with interactive controls
+
+--- .class #id 
+
+## Motivation: R Shiny vs. Tableau
+
+*** left
+
+- Shiny runs an R session: can re-use scripts
+- benefit from R user community developments
+- 
+
+*** right
+
+- Tableau is intuitive to use
+- difficult to customize
+- limited possibilities out-of-the-box
+
+--- .class #id 
+
 ## Applied example: indicator calculation
 
 - pre-calculation vs. on-demand calculation
