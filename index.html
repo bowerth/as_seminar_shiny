@@ -154,7 +154,7 @@
 <li>Shiny server for deploying them</li>
 </ol>
 
-<p>Source: <a href="https://github.com/rstudio/shiny">https://github.com/rstudio/shiny</a></p>
+<!-- Source: https://github.com/rstudio/shiny -->
 
   </article>
   <!-- Presenter Notes -->
@@ -170,7 +170,7 @@
 <div style='float:left;width:48%;' class='centered'>
   <p>a user-interface script</p>
 
-<p>The user-interface script <code>ui.R</code> controls the layout and appearance of your app. It contains</p>
+<p>The user-interface script <code>ui.R</code> controls the layout and appearance of your app. It contains:</p>
 
 <ul>
 <li>layout information, e.g. default layouts, bootstrap theme, custom grid layout</li>
@@ -182,7 +182,7 @@
 <div style='float:right;width:48%;'>
   <p>a server script</p>
 
-<p>The server-side script <code>server.R</code> contains the instructions that are required to build the application. It can</p>
+<p>The server-side script <code>server.R</code> contains the instructions that are required to build the application. It can:</p>
 
 <ul>
 <li>use inputs from the ui script, e.g. for subsetting data or changing parameters</li>
@@ -255,17 +255,15 @@
     <h2>Reactive programming model</h2>
   </hgroup>
   <article data-timings="">
-    <p>prevent unnecessary work, especially if the app needs to do a lot of slow computation</p>
-
-<p><a href="http://shiny.rstudio.com/articles/reactivity-overview.html">http://shiny.rstudio.com/articles/reactivity-overview.html</a></p>
-
-<h3>Reactive conductors</h3>
+    <h3>Reactive conductors</h3>
 
 <p>The amount of computation can be reduced by adding a reactive conductor in between the source and endpoints:</p>
 
 <p style="text-align:center"><img src="assets/img/reactive_programming_model_schema_conductor.png" alt="reactive conductor" style="height: 125px"/></p>
 
-<p>Reactive conductors are placed somewhere in between sources and endpoints on the reactive graph. They are typically used for encapsulating slow operations.</p>
+<p>Reactive conductors are placed somewhere in between sources and endpoints on the reactive graph. They are typically used for encapsulating slow operations. Try to prevent unnecessary work, especially if the app needs to do a lot of slow computation.</p>
+
+<p><a href="http://shiny.rstudio.com/articles/reactivity-overview.html">http://shiny.rstudio.com/articles/reactivity-overview.html</a></p>
 
   </article>
   <!-- Presenter Notes -->

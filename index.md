@@ -80,7 +80,7 @@ Shiny comes in two parts:
 1. the shiny R package for developing Shiny apps
 2. Shiny server for deploying them
 
-Source: https://github.com/rstudio/shiny
+<!-- Source: https://github.com/rstudio/shiny -->
 
 --- &twocol
 
@@ -91,7 +91,7 @@ Shiny apps have two components:
 *** =left
 a user-interface script
 
-The user-interface script `ui.R` controls the layout and appearance of your app. It contains
+The user-interface script `ui.R` controls the layout and appearance of your app. It contains:
 
 - layout information, e.g. default layouts, bootstrap theme, custom grid layout
 - controls for `inputs` into the application, e.g. selectInput, sliderInput, numericInput
@@ -100,7 +100,7 @@ The user-interface script `ui.R` controls the layout and appearance of your app.
 *** =right
 a server script
 
-The server-side script `server.R` contains the instructions that are required to build the application. It can
+The server-side script `server.R` contains the instructions that are required to build the application. It can:
 
 - use inputs from the ui script, e.g. for subsetting data or changing parameters
 - create reactive elements that refresh when inputs change
@@ -115,13 +115,11 @@ The simplest structure of a reactive program involves just a source and an endpo
 <p style="text-align:center"><img src="assets/img/reactive_programming_model_schema_source_endpoint.png" alt="source and endpoint" style="height: 125px"/></p>
 
 *** =left
-
 source
 
 the source typically is user `input` through a browser interface (item selection, type text string, button click etc.). These actions will set values that are reactive sources. Reactive sources can signal objects `downstream` that they need to re-execute.
 
 *** =right
-
 endpoint
 
 reactive endpoints are accessible through the `output` object (in most cases). A reactive endpoint is usually something that appears in the user's browser window, such as a plot or a table of values. Reactive endpoints can be told to re-execute by the reactive environment, and can request `upstream` objects to execute.
@@ -129,7 +127,6 @@ reactive endpoints are accessible through the `output` object (in most cases). A
 --- .class #id
 
 ## Example apps
-
 ### rCharts Polyplot
 
 replication of tableau visualisation [Percentage of employed who are senior managers, by sex](http://www.oecd.org/gender/data/proportionofemployedwhoareseniormanagersbysex.htm)
@@ -148,18 +145,15 @@ Note: uses `global.R` script to load data
 --- .class #id
 
 ## Reactive programming model
-
-prevent unnecessary work, especially if the app needs to do a lot of slow computation
-
-http://shiny.rstudio.com/articles/reactivity-overview.html
-
 ### Reactive conductors
 
 The amount of computation can be reduced by adding a reactive conductor in between the source and endpoints:
 
 <p style="text-align:center"><img src="assets/img/reactive_programming_model_schema_conductor.png" alt="reactive conductor" style="height: 125px"/></p>
 
-Reactive conductors are placed somewhere in between sources and endpoints on the reactive graph. They are typically used for encapsulating slow operations.
+Reactive conductors are placed somewhere in between sources and endpoints on the reactive graph. They are typically used for encapsulating slow operations. Try to prevent unnecessary work, especially if the app needs to do a lot of slow computation.
+
+http://shiny.rstudio.com/articles/reactivity-overview.html
 
 --- .class #id
 
