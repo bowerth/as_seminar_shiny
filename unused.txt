@@ -1,0 +1,22 @@
+<!-- ## Dynamic charts ([rCharts](http://rcharts.io/gallery/)) -->
+
+<!-- ```{r echo = F, results = 'asis'} -->
+<!-- require(rCharts) -->
+<!-- data.plot <- subset(DATA.PIAAC, select = c("ocu", "ind", "value"), cou=="AUT" & var=="EMPN" & ind%in%STANi4.IND[["A21"]]) -->
+<!-- data.plot.expand <- merge(data.frame(ocu = unique(data.plot$ocu)), -->
+<!-- 	data.frame(dim = unique(data.plot[, "ind"])), -->
+<!-- 	all = TRUE) -->
+<!-- 	names(data.plot.expand) <- sub("dim", "ind", names(data.plot.expand)) -->
+<!--     data.plot.expand$value <- 0 -->
+<!--     data.plot <- rbind(data.plot, data.plot.expand) -->
+<!--     data.plot <- data.plot[!duplicated(data.plot[,!colnames(data.plot)=="value"]),] -->
+<!--     data.plot <- data.plot[order(data.plot[, "ind"], -->
+<!--                                              data.plot$ocu),] -->
+<!-- n1 <- nPlot(value ~ ind, group = 'ocu', type = 'multiBarChart', -->
+<!-- 	data = data.plot -->
+<!-- ) -->
+<!-- n1$chart(reduceXTicks = FALSE) -->
+<!-- n1$chart(stacked = TRUE) -->
+<!-- n1$xAxis(rotateLabels = -90) -->
+<!-- n1$print('chart1') -->
+<!-- ``` -->

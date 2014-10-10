@@ -13,7 +13,9 @@
     media="only screen and (max-device-width: 480px)" >
   <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
   <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
-  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/nvd3/css/nv.d3.css"></link>
+<link rel=stylesheet href="libraries/widgets/nvd3/css/rNVD3.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
 
   
   <!-- Grab CDN jQuery, fall back to local if offline -->
@@ -23,7 +25,11 @@
     src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
   </script>
   
-  
+  <script src="libraries/widgets/nvd3/js/jquery-1.8.2.min.js"></script>
+<script src="libraries/widgets/nvd3/js/d3.v3.min.js"></script>
+<script src="libraries/widgets/nvd3/js/nv.d3.min-new.js"></script>
+<script src="libraries/widgets/nvd3/js/fisheye.js"></script>
+
 
 </head>
 <body style="opacity: 0">
@@ -43,33 +49,26 @@
     <!-- SLIDES -->
     <slide class="" id="slide-1" style="background:;">
   <hgroup>
-    <h2>Objectives</h2>
-  </hgroup>
-  <article data-timings="">
-    <p>Introduce interactive web applications using R shiny and discuss existing projects</p>
-
-<ul>
-<li>application hosted on <a href="http://oecd-icio.cloudapp.net:3838">external server</a></li>
-<li>applications hosted on <a href="http://10.101.26.220:3838/industry">internal server</a> (only available from OECD network)</li>
-</ul>
-
-<p>Applications require a modern browser (e.g. Mozilla Firefox or Google Chrome)</p>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="class" id="id" style="background:;">
-  <hgroup>
-    <h2>Motivation</h2>
+    <h2>Outline</h2>
   </hgroup>
   <article data-timings="">
     <ul>
-<li>the interface between statistics and analysis</li>
-<li>what makes shiny different from <a href="http://www.tableausoftware.com">Tableau</a></li>
-<li>too much data: benefits of dynamic charts in reports</li>
-<li>rapid prototyping with R: availability of routines</li>
-<li>server hosting for external communication</li>
+<li>R in the Statistical Office</li>
+<li>Motivation</li>
+<li>About Shiny</li>
+<li>Shiny features</li>
+<li>Structure of a Shiny App
+
+<ul>
+<li>ui.R</li>
+<li>server.R</li>
+</ul></li>
+<li>Example apps</li>
+<li>Reactive programming model</li>
+<li>Reactive sources end endpoints</li>
+<li>Applied example: ratio and index calculation</li>
+<li>Reactive conductors</li>
+<li>Applied example: SDMX</li>
 </ul>
 
   </article>
@@ -78,17 +77,21 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Motivation: applications for statistical analysis</h2>
+    <h2>R and the Statistical Office</h2>
   </hgroup>
   <article data-timings="">
     <ul>
-<li>separation of analytical projects into statistics and analysis creates frictions</li>
-<li>design interactive tools that are:
+<li>Visit UNIDO to discuss automatic data validation</li>
+<li>Design interfaces: make R functions available to economists</li>
+<li><code>gWidgets2</code> by John Verzani useful but complex and rigid</li>
+<li><code>shiny</code> by Joe Cheng (now RStudio) very intuitive and flexible</li>
+<li>first test: app to explore Paris real estate offers</li>
+<li>challenge: can it be used for professional tasks?
 
 <ul>
-<li>intuitive to use</li>
-<li>abstract from the heterogeneity of data sources</li>
-<li>include visual representations with interactive controls</li>
+<li>trade-off between convention and customisation</li>
+<li>expectations to interactive tools: when do they become useful?</li>
+<li>can smooth transition from statistical to analytical tasks?</li>
 </ul></li>
 </ul>
 
@@ -96,25 +99,192 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="class" id="id" style="background:;">
+<slide class="" id="slide-3" style="background:;">
   <hgroup>
-    <h2>Motivation: R Shiny vs. Tableau</h2>
+    <h2>Motivation</h2>
   </hgroup>
   <article data-timings="">
     
+<div style='float:left;width:48%;' class='centered'>
+  <h3>+</h3>
+
+<ul>
+<li>access speed</li>
+<li>routine operations</li>
+<li>reproducibility</li>
+<li>available methods</li>
+<li>flexibility of presentation</li>
+<li>user empowerment</li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <h3>-</h3>
+
+<ul>
+<li>development time</li>
+<li>changing requirements</li>
+<li>maintenance</li>
+<li>transparency</li>
+</ul>
+
+</div>
   </article>
   <!-- Presenter Notes -->
 </slide>
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Applied example: indicator calculation</h2>
+    <h2>What is Shiny?</h2>
   </hgroup>
   <article data-timings="">
     <ul>
-<li>pre-calculation vs. on-demand calculation</li>
-<li>client-side interactivity with javascript: <a href="http://rcharts.io/gallery/">rCharts</a></li>
-<li>see example <a href="http://10.101.26.220:3838/industry">STAN &gt; STAN Indicators</a> (only available from OECD network)</li>
+<li>Interactive web applications around your R analysis</li>
+<li>Zero HTML/CSS/JavaScript knowledge is required...</li>
+<li class='..but'>fully customisable and extensible with HTML/CSS/JavaScript</li>
+<li>Designed to integrate with existing JavaScript libraries (for visualisation)</li>
+<li>Uses a <a href="http://en.wikipedia.org/wiki/Reactive_programming">reactive</a> programming model which allows dramatically simpler code than traditional UI or web programming</li>
+<li>Shiny applications are automatically &quot;live&quot; in the same way that spreadsheets are live. Outputs change instantly as users modify inputs, without requiring a reload of the browser</li>
+</ul>
+
+<p>Shiny comes in two parts:</p>
+
+<ol>
+<li>the shiny R package for developing Shiny apps</li>
+<li>Shiny server for deploying them</li>
+</ol>
+
+<p>Source: <a href="https://github.com/rstudio/shiny">https://github.com/rstudio/shiny</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Structure of a Shiny App</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Shiny apps have two components:</p>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p>a user-interface script</p>
+
+<p>The user-interface script <code>ui.R</code> controls the layout and appearance of your app. It contains</p>
+
+<ul>
+<li>layout information, e.g. default layouts, bootstrap theme, custom grid layout</li>
+<li>controls for <code>inputs</code> into the application, e.g. selectInput, sliderInput, numericInput</li>
+<li>appearance of <code>outputs</code>, e.g. text boxes, tables and plot size</li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p>a server script</p>
+
+<p>The server-side script <code>server.R</code> contains the instructions that are required to build the application. It can</p>
+
+<ul>
+<li>use inputs from the ui script, e.g. for subsetting data or changing parameters</li>
+<li>create reactive elements that refresh when inputs change</li>
+<li>create <code>outputs</code> that are returned to the user interface</li>
+</ul>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Reactive sources and endpoints</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The simplest structure of a reactive program involves just a source and an endpoint:</p>
+
+<p style="text-align:center"><img src="assets/img/reactive_programming_model_schema_source_endpoint.png" alt="source and endpoint" style="height: 125px"/></p>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p>source</p>
+
+<p>the source typically is user <code>input</code> through a browser interface (item selection, type text string, button click etc.). These actions will set values that are reactive sources. Reactive sources can signal objects <code>downstream</code> that they need to re-execute.</p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p>endpoint</p>
+
+<p>reactive endpoints are accessible through the <code>output</code> object (in most cases). A reactive endpoint is usually something that appears in the user&#39;s browser window, such as a plot or a table of values. Reactive endpoints can be told to re-execute by the reactive environment, and can request <code>upstream</code> objects to execute.</p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Example apps</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>rCharts Polyplot</h3>
+
+<p>replication of tableau visualisation <a href="http://www.oecd.org/gender/data/proportionofemployedwhoareseniormanagersbysex.htm">Percentage of employed who are senior managers, by sex</a></p>
+
+<ul>
+<li>data: senior manager percentages by gender across countries</li>
+<li>source: International Labor Organization</li>
+<li>function: interactive data display with rCharts&#39; <code>polycharts</code> binding</li>
+<li>reference: <a href="http://ramnathv.github.io/rChartsShiny/">http://ramnathv.github.io/rChartsShiny/</a></li>
+</ul>
+
+<p>Note: uses <code>global.R</code> script to load data</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p style="text-align:center"><img src="assets/img/runApp_rChartsPolyplot.png" alt="rChartsPolyplot app" style="height: 550px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Reactive programming model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>prevent unnecessary work, especially if the app needs to do a lot of slow computation</p>
+
+<p><a href="http://shiny.rstudio.com/articles/reactivity-overview.html">http://shiny.rstudio.com/articles/reactivity-overview.html</a></p>
+
+<h3>Reactive conductors</h3>
+
+<p>The amount of computation can be reduced by adding a reactive conductor in between the source and endpoints:</p>
+
+<p style="text-align:center"><img src="assets/img/reactive_programming_model_schema_conductor.png" alt="reactive conductor" style="height: 125px"/></p>
+
+<p>Reactive conductors are placed somewhere in between sources and endpoints on the reactive graph. They are typically used for encapsulating slow operations.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Example apps</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>histogram</h3>
+
+<p>simple histogram with slider to change the binwidth</p>
+
+<ul>
+<li>data: Waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</li>
+<li>source: Azzalini, A. and Bowman, A. W. (1990). A look at some data on the Old Faithful geyser. Applied Statistics 39, 357–365.</li>
+<li>function: <code>seq</code> to create histogram breaks</li>
+<li>reference: <a href="http://shiny.rstudio.com/tutorial/lesson1/">http://shiny.rstudio.com/tutorial/lesson1/</a></li>
 </ul>
 
   </article>
@@ -123,10 +293,115 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Applied example: SDMX</h2>
+    <h3>histogram</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center"><img src="assets/img/runApp_histogram.png" alt="histogram app" style="height: 550px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Example apps</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>k-means</h3>
+
+<p>k-means clustering, &quot;X&quot; marking the center of the cluster, points coloured according to clusters</p>
+
+<ul>
+<li>data: measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris (Iris setosa, versicolor, and virginica).</li>
+<li>source: Anderson, Edgar (1935). The irises of the Gaspe Peninsula, Bulletin of the American Iris Society, 59, 2–5.</li>
+<li>function: clustering of iris data with <code>kmeans</code></li>
+<li>reference: Joe Cheng on RStudio Shiny <a href="http://vimeo.com/94184686">http://vimeo.com/94184686</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>k-means</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center"><img src="assets/img/runApp_k-means.png" alt="k-means app" style="height: 550px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>ui.R</code>: Inputs</h2>
   </hgroup>
   <article data-timings="">
     <ul>
+<li>actionButton: Action Button</li>
+<li>checkboxInput: A single check box</li>
+<li>fileInput: A file upload control wizard</li>
+<li>helpText: Help text that can be added to an input form</li>
+<li>numericInput: A field to enter numbers</li>
+<li>radioButtons: A set of radio buttons</li>
+<li>selectInput: A box with choices to select from</li>
+<li>sliderInput: A slider bar</li>
+<li>textInput: A field to enter text</li>
+</ul>
+
+<p><a href="http://shiny.rstudio.com/tutorial/lesson3/">http://shiny.rstudio.com/tutorial/lesson3/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>Input Widgets 1</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center"><img src="assets/img/runApp_widgets-1.png" alt="shiny widgets 1" style="width: 950px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>Input Widgets 2</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center"><img src="assets/img/runApp_widgets-2.png" alt="shiny widgets 2" style="width: 950px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2><code>ui.R</code> and <code>server.R</code>: Outputs</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>2 types:</p>
+
+<ul>
+<li>static (native R)</li>
+<li>dynamic / interactive (using JavaScript)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Example apps</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>Interfacing complex functions: SDMX</h3>
+
+<ul>
 <li>connecting to Java library from R</li>
 <li>obtain data flows from provider, its dimensions and select codes interacetively</li>
 <li>send SDMX query to retrieve values</li>
@@ -140,13 +415,114 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Prerequisites</h2>
+    <h2>Indicator calculation</h2>
   </hgroup>
   <article data-timings="">
-    <ul>
-<li>interest in statistical programming with R</li>
-<li>follow first lesson of the <a href="http://shiny.rstudio.com/tutorial">shiny tutorial</a></li>
+    <h3>Shares and indices</h3>
+
+<ul>
+<li>define formula: <code>IPYE = VALK / EMPN / (VALK_2005 / EMPN_2005)</code></li>
+<li>parse formula: remove non-alphanumeric characters: <code>[^a-zA-Z0-9]</code></li>
+<li>subset data to variables: <code>subset(data,var%in%c(&quot;VALU&quot;,&quot;EMPN&quot;,&quot;VALK&quot;))</code></li>
+<li>pivot with denominators: <code>VALU|EMPN|VALK|VALU_2005|EMPN_2005|VALK_2005</code></li>
+<li>calculate <code>IPYE</code> according to formula</li>
 </ul>
+
+<p>Example: <code>stanIndic</code></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Indicator calculation</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>Linear algebra</h3>
+
+<ul>
+<li>select dimensions</li>
+<li>subset data from multidimensional arrays</li>
+<li>perform calculations:</li>
+</ul>
+
+<pre><code>data.couX.indX &lt;- data.conv1 * data.demand
+aaa &lt;- xB %*% data.couX.indX
+aaa &lt;- apply(aaa, 1, sum)
+</code></pre>
+
+<ul>
+<li>aggregate results</li>
+</ul>
+
+<p>Example: <code>icioFddva</code></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Outputs</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>Export data and charts</h3>
+
+<p>Example:</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Radiant</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>Report generation</h3>
+
+<p>Create HTML reports with embedded <code>Ace</code> text editor</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Radiant</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>Integrate independent applications</h3>
+
+<p>Generate applications from a single script using functions</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>System Architecture</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src="assets/img/architecture.svg" alt="reactive programming" style="height: 450px"/></p>
+
+<ul>
+<li>testing environment: <a href="http://10.101.26.220:3838/industry">http://10.101.26.220:3838/industry</a></li>
+<li>production environment: <a href="http://oecd-icio.cloudapp.net:3838">http://oecd-icio.cloudapp.net:3838</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>References</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Developer page: <a href="http://shiny.rstudio.com">http://shiny.rstudio.com</a></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -158,44 +534,152 @@
     <ul>
       <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=1 title='Objectives'>
+        data-slide=1 title='Outline'>
          1
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='Motivation'>
+        data-slide=2 title='R and the Statistical Office'>
          2
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='Motivation: applications for statistical analysis'>
+        data-slide=3 title='Motivation'>
          3
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='Motivation: R Shiny vs. Tableau'>
+        data-slide=4 title='What is Shiny?'>
          4
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=5 title='Applied example: indicator calculation'>
+        data-slide=5 title='Structure of a Shiny App'>
          5
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=6 title='Applied example: SDMX'>
+        data-slide=6 title='Reactive sources and endpoints'>
          6
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=7 title='Prerequisites'>
+        data-slide=7 title='Example apps'>
          7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title=''>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='Reactive programming model'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='Example apps'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='histogram'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='Example apps'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='k-means'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='<code>ui.R</code>: Inputs'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='Input Widgets 1'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='Input Widgets 2'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='<code>ui.R</code> and <code>server.R</code>: Outputs'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Example apps'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Indicator calculation'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Indicator calculation'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Outputs'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Radiant'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Radiant'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='System Architecture'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='References'>
+         25
       </a>
     </li>
   </ul>

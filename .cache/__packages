@@ -1,0 +1,17 @@
+base
+DBI
+devtools
+ggplot2
+govStatJPN
+httr
+PIAAC
+rCharts
+reshape2
+RODBC
+RSQLite
+sas7bdat
+screening
+slidify
+slidifyLibraries
+stan
+stanData
