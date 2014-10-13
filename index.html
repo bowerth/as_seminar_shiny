@@ -48,39 +48,28 @@
 
     <!-- SLIDES -->
     <slide class="" id="slide-1" style="background:;">
-  <hgroup>
-    <h2>Outline</h2>
-  </hgroup>
   <article data-timings="">
-    <ul>
-<li>R in the Statistical Office</li>
-<li>Motivation</li>
-<li>About Shiny</li>
-<li>Shiny features</li>
-<li>Structure of a Shiny App
+    <!-- 
+## Outline
+
+- R in the Statistical Office
+- Motivation
+- About Shiny
+- Shiny features
+- Structure of a Shiny App
+ - ui.R
+ - server.R
+- Example apps
+- Reactive programming model
+- Reactive sources end endpoints
+- Applied example: ratio and index calculation
+- Reactive conductors
+- Applied example: SDMX
+-->
+
+<h2>R and the Statistical Office</h2>
 
 <ul>
-<li>ui.R</li>
-<li>server.R</li>
-</ul></li>
-<li>Example apps</li>
-<li>Reactive programming model</li>
-<li>Reactive sources end endpoints</li>
-<li>Applied example: ratio and index calculation</li>
-<li>Reactive conductors</li>
-<li>Applied example: SDMX</li>
-</ul>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="class" id="id" style="background:;">
-  <hgroup>
-    <h2>R and the Statistical Office</h2>
-  </hgroup>
-  <article data-timings="">
-    <ul>
 <li>Visit UNIDO to discuss automatic data validation</li>
 <li>Design interfaces: make R functions available to economists</li>
 <li><code>gWidgets2</code> by John Verzani useful but complex and rigid</li>
@@ -99,7 +88,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-3" style="background:;">
+<slide class="" id="slide-2" style="background:;">
   <hgroup>
     <h2>Motivation</h2>
   </hgroup>
@@ -160,6 +149,22 @@
   <!-- Presenter Notes -->
 </slide>
 
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Use Cases</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Display data: show more data than can be displayed in one chart</li>
+<li>Explore data: change mapping of variables to visual elements</li>
+<li>Calculation: derive new indicators from variables in data set</li>
+<li>Robustness: test sensitivity of results to changes in model parameters</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
 <slide class="" id="slide-5" style="background:;">
   <hgroup>
     <h2>Structure of a Shiny App</h2>
@@ -197,7 +202,7 @@
 
 <slide class="" id="slide-6" style="background:;">
   <hgroup>
-    <h2>Reactive sources and endpoints</h2>
+    <h2>Reactive Sources and Endpoints</h2>
   </hgroup>
   <article data-timings="">
     <p>The simplest structure of a reactive program involves just a source and an endpoint:</p>
@@ -222,7 +227,7 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Example apps</h2>
+    <h2>Example App</h2>
   </hgroup>
   <article data-timings="">
     <h3>rCharts Polyplot</h3>
@@ -271,7 +276,7 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Example apps</h2>
+    <h2>Example App</h2>
   </hgroup>
   <article data-timings="">
     <h3>histogram</h3>
@@ -302,7 +307,54 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Example apps</h2>
+    <h2>Input Controls</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>A range of default controls are available:</p>
+
+<ul>
+<li>actionButton: Action Button</li>
+<li>checkboxInput: A single check box</li>
+<li>fileInput: A file upload control wizard</li>
+<li>helpText: Help text that can be added to an input form</li>
+<li>numericInput: A field to enter numbers</li>
+<li>radioButtons: A set of radio buttons</li>
+<li>selectInput: A box with choices to select from</li>
+<li>sliderInput: A slider bar</li>
+<li>textInput: A field to enter text</li>
+</ul>
+
+<p><a href="http://shiny.rstudio.com/tutorial/lesson3/">http://shiny.rstudio.com/tutorial/lesson3/</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>Input Controls 1</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center"><img src="assets/img/runApp_widgets-1.png" alt="shiny widgets 1" style="width: 950px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>Input Controls 2</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center"><img src="assets/img/runApp_widgets-2.png" alt="shiny widgets 2" style="width: 950px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Example App</h2>
   </hgroup>
   <article data-timings="">
     <h3>k-means</h3>
@@ -333,22 +385,28 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2><code>ui.R</code>: Inputs</h2>
+    <h2>Display Reactive Output</h2>
   </hgroup>
   <article data-timings="">
     <ul>
-<li>actionButton: Action Button</li>
-<li>checkboxInput: A single check box</li>
-<li>fileInput: A file upload control wizard</li>
-<li>helpText: Help text that can be added to an input form</li>
-<li>numericInput: A field to enter numbers</li>
-<li>radioButtons: A set of radio buttons</li>
-<li>selectInput: A box with choices to select from</li>
-<li>sliderInput: A slider bar</li>
-<li>textInput: A field to enter text</li>
+<li>renderPrint: print summary statistics etc.</li>
+<li>renderPlot: base plot or lattice graphics</li>
+<li>renderTable: basic table output</li>
+<li>renderChart: interactive <a href="http://rcharts.io/">rCharts</a> using d3.js (<code>js</code>)</li>
+<li>renderDataTable: table with embedded controls (<code>js</code>)</li>
+<li>downloadHandler: trigger file download</li>
 </ul>
 
-<p><a href="http://shiny.rstudio.com/tutorial/lesson3/">http://shiny.rstudio.com/tutorial/lesson3/</a></p>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>renderPrint and renderPlot 1: ICIO Barplot by Industry</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center"><img src="assets/img/runApp_industry_icioFddva_plots_barchart.png" alt="industry app" style="height: 550px"/></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -356,10 +414,10 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h3>Input Widgets 1</h3>
+    <h3>renderPrint and renderPlot 2: ICIO Selection Matrix</h3>
   </hgroup>
   <article data-timings="">
-    <p style="text-align:center"><img src="assets/img/runApp_widgets-1.png" alt="shiny widgets 1" style="width: 950px"/></p>
+    <p style="text-align:center"><img src="assets/img/runApp_industry_icioFddva_plots_dimensions.png" alt="industry app" style="height: 550px"/></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -367,10 +425,10 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h3>Input Widgets 2</h3>
+    <h3>renderPrint and renderPlot 3: STAN R&amp;D</h3>
   </hgroup>
   <article data-timings="">
-    <p style="text-align:center"><img src="assets/img/runApp_widgets-2.png" alt="shiny widgets 2" style="width: 950px"/></p>
+    <p style="text-align:center"><img src="assets/img/runApp_industry_stanRnd_plots_lines.png" alt="industry app" style="height: 550px"/></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -378,15 +436,71 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2><code>ui.R</code> and <code>server.R</code>: Outputs</h2>
+    <h3>renderTable and renderChart: LFS Share</h3>
   </hgroup>
   <article data-timings="">
-    <p>2 types:</p>
+    <p style="text-align:center"><img src="assets/img/runApp_industry_lfsShare_nvd3charts.png" alt="industry app" style="height: 300px"/></p>
+
+<p style="text-align:center"><img src="assets/img/runApp_industry_lfsShare_tables.png" alt="industry app" style="height: 200px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>renderDataTable: STAN Indicators</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center"><img src="assets/img/runApp_industry_stanIndic_datatables.png" alt="industry app" style="height: 550px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>downloadHandler: SDMX Browser</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center"><img src="assets/img/runApp_industry_sdmxBrowser_ui_download_csv.png" alt="industry app" style="height: 170px"/></p>
+
+<p style="text-align:center"><img src="assets/img/runApp_industry_sdmxBrowser_output_excelcsv.png" alt="industry app" style="height: 300px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>downloadHandler: STAN R&amp;D</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center"><img src="assets/img/runApp_industry_stanRnd_download_plot.png" alt="industry app" style="height: 500px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>R Calculations</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>shiny requires a running R session </li>
+<li>creation of self-service tools for statistical analysis</li>
+<li>straight-forward use of functions from existing packages</li>
+<li>beneficial to create own package(s) from scripts early
 
 <ul>
-<li>static (native R)</li>
-<li>dynamic / interactive (using JavaScript)</li>
+<li>development: <a href="https://github.com/hadley/devtools">https://github.com/hadley/devtools</a></li>
+<li>documentation: <a href="http://r-pkgs.had.co.nz/man.html">http://r-pkgs.had.co.nz/man.html</a></li>
+</ul></li>
+<li>installation on external server from source code platforms</li>
 </ul>
+
+<p style="text-align:center;"><img src="assets/img/adv-r_binding.png" alt="function binding" style="height: 200px"/></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -394,29 +508,10 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Example apps</h2>
+    <h2>Example App</h2>
   </hgroup>
   <article data-timings="">
-    <h3>Interfacing complex functions: SDMX</h3>
-
-<ul>
-<li>connecting to Java library from R</li>
-<li>obtain data flows from provider, its dimensions and select codes interacetively</li>
-<li>send SDMX query to retrieve values</li>
-<li>transform returned time series into table format, create basic plots and download information</li>
-<li>see example <a href="http://10.101.26.220:3838/industry">SDMX &gt; SDMX Browser</a> (only available from OECD network)</li>
-</ul>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="class" id="id" style="background:;">
-  <hgroup>
-    <h2>Indicator calculation</h2>
-  </hgroup>
-  <article data-timings="">
-    <h3>Shares and indices</h3>
+    <h3>STAN Indicators</h3>
 
 <ul>
 <li>define formula: <code>IPYE = VALK / EMPN / (VALK_2005 / EMPN_2005)</code></li>
@@ -426,7 +521,16 @@
 <li>calculate <code>IPYE</code> according to formula</li>
 </ul>
 
-<p>Example: <code>stanIndic</code></p>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>STAN Indicators</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center;"><img src="assets/img/runApp_industry_stanIndic_plots_line.png" alt="industry app" style="height: 500px"/></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -434,10 +538,10 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Indicator calculation</h2>
+    <h2>Example App</h2>
   </hgroup>
   <article data-timings="">
-    <h3>Linear algebra</h3>
+    <h3>ICIO Foreign Demand Domestic Value Added</h3>
 
 <ul>
 <li>select dimensions</li>
@@ -451,10 +555,19 @@ aaa &lt;- apply(aaa, 1, sum)
 </code></pre>
 
 <ul>
-<li>aggregate results</li>
+<li>aggregate and display results (table, barchart, map)</li>
 </ul>
 
-<p>Example: <code>icioFddva</code></p>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>ICIO Foreign Demand Domestic Value Added 1</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_aggregation.png" alt="industry app" style="height: 500px"/></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -462,12 +575,10 @@ aaa &lt;- apply(aaa, 1, sum)
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Outputs</h2>
+    <h3>ICIO Foreign Demand Domestic Value Added 2</h3>
   </hgroup>
   <article data-timings="">
-    <h3>Export data and charts</h3>
-
-<p>Example:</p>
+    <p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_edit.png" alt="industry app" style="height: 550px"/></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -475,12 +586,29 @@ aaa &lt;- apply(aaa, 1, sum)
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Radiant</h2>
+    <h2>Integrating Applications</h2>
   </hgroup>
   <article data-timings="">
-    <h3>Report generation</h3>
+    <h3>Radiant</h3>
 
-<p>Create HTML reports with embedded <code>Ace</code> text editor</p>
+<p>Perform various tasks on the same dataset</p>
+
+<ul>
+<li>customize UI to make best use of a single R function</li>
+<li>optimized outputs are returned from function calls</li>
+</ul>
+
+<p>“There are only two hard things in Computer Science: cache invalidation and naming things.” 
+Phil Karlton</p>
+
+<p>Requires systematic structure:</p>
+
+<ul>
+<li>naming conflicts: prepend objects and functions with application id</li>
+<li>common data across applications: reduce memory requirements</li>
+<li>generalize processing and and exporting of results</li>
+<li>flexibly expand and shrink functionality (testing, production)</li>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
@@ -488,12 +616,125 @@ aaa &lt;- apply(aaa, 1, sum)
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>Radiant</h2>
+    <h3>Radiant: Data</h3>
   </hgroup>
   <article data-timings="">
-    <h3>Integrate independent applications</h3>
+    <p style="text-align:center;"><img src="assets/img/runApp_radiant_data_manage.png" alt="industry app" style="height: 500px"/></p>
 
-<p>Generate applications from a single script using functions</p>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>Radiant: Visualize</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center;"><img src="assets/img/runApp_radiant_data_visualize.png" alt="industry app" style="height: 500px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>Radiant: Report</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center;"><img src="assets/img/runApp_radiant_data_report_preview.png" alt="industry app" style="height: 550px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Advanced Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>SDMX Browser</h3>
+
+<ul>
+<li>connecting to Java library from R</li>
+<li>obtain data flows from provider, its dimensions and select codes interacetively</li>
+<li>send SDMX query to retrieve values</li>
+<li>transform returned time series into table format, create basic plots and download information</li>
+</ul>
+
+<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxlogo.png" alt="industry app"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_amattioc.png" alt="industry app"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxHelp().png" alt="industry app"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_ui_flow.png" alt="industry app"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>SDMX Browser: DataTables</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_datatables.png" alt="industry app"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>SDMX Browser: Plots</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_plots.png" alt="industry app"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Going Public - Server Hosting</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>RStudio server: shinyapps.io</p>
+
+<ul>
+<li>free beta</li>
+<li>no maintenance</li>
+<li>good performance</li>
+<li>intuitive interface</li>
+<li>professional subscriptions coming soon</li>
+</ul>
+
+<p>Self-hosting on cloud server: </p>
+
+<ul>
+<li>Microsoft Azure (or: Amazon EC2, Google...)</li>
+<li>Spec: 4-core, 2GB RAM: 1300 Euros p.a.</li>
+<li>RedHat Server license: 500 Euros p.a.</li>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
@@ -504,7 +745,7 @@ aaa &lt;- apply(aaa, 1, sum)
     <h2>System Architecture</h2>
   </hgroup>
   <article data-timings="">
-    <p><img src="assets/img/architecture.svg" alt="reactive programming" style="height: 450px"/></p>
+    <p style="text-align:center;"><img src="assets/img/architecture.svg" alt="reactive programming" style="height: 400px"/></p>
 
 <ul>
 <li>testing environment: <a href="http://10.101.26.220:3838/industry">http://10.101.26.220:3838/industry</a></li>
@@ -517,10 +758,21 @@ aaa &lt;- apply(aaa, 1, sum)
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>References</h2>
+    <h2>More Information</h2>
   </hgroup>
   <article data-timings="">
-    <p>Developer page: <a href="http://shiny.rstudio.com">http://shiny.rstudio.com</a></p>
+    <p>Shiny Tutorial:</p>
+
+<ul>
+<li><a href="http://shiny.rstudio.com/tutorial">http://shiny.rstudio.com/tutorial</a></li>
+</ul>
+
+<p>Massive Open Online Courses:</p>
+
+<ul>
+<li>CS109 Data Science, School of Engineering and Applied Sciences <a href="http://cs109.github.io/2014/">http://cs109.github.io/2014/</a></li>
+<li>Developing Data Products by Brian Caffo, PhD, Jeff Leek, PhD, Roger D. Peng, PhD, John Hopkins University, Bloomberg School of Public Health (part of Data Science specialisation)</li>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
@@ -532,25 +784,25 @@ aaa &lt;- apply(aaa, 1, sum)
     <ul>
       <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=1 title='Outline'>
+        data-slide=1 title=''>
          1
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='R and the Statistical Office'>
+        data-slide=2 title='Motivation'>
          2
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='Motivation'>
+        data-slide=3 title='What is Shiny?'>
          3
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='What is Shiny?'>
+        data-slide=4 title='Use Cases'>
          4
       </a>
     </li>
@@ -562,13 +814,13 @@ aaa &lt;- apply(aaa, 1, sum)
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=6 title='Reactive sources and endpoints'>
+        data-slide=6 title='Reactive Sources and Endpoints'>
          6
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=7 title='Example apps'>
+        data-slide=7 title='Example App'>
          7
       </a>
     </li>
@@ -586,7 +838,7 @@ aaa &lt;- apply(aaa, 1, sum)
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=10 title='Example apps'>
+        data-slide=10 title='Example App'>
          10
       </a>
     </li>
@@ -598,86 +850,194 @@ aaa &lt;- apply(aaa, 1, sum)
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=12 title='Example apps'>
+        data-slide=12 title='Input Controls'>
          12
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=13 title='k-means'>
+        data-slide=13 title='Input Controls 1'>
          13
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=14 title='<code>ui.R</code>: Inputs'>
+        data-slide=14 title='Input Controls 2'>
          14
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=15 title='Input Widgets 1'>
+        data-slide=15 title='Example App'>
          15
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=16 title='Input Widgets 2'>
+        data-slide=16 title='k-means'>
          16
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=17 title='<code>ui.R</code> and <code>server.R</code>: Outputs'>
+        data-slide=17 title='Display Reactive Output'>
          17
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=18 title='Example apps'>
+        data-slide=18 title='renderPrint and renderPlot 1: ICIO Barplot by Industry'>
          18
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=19 title='Indicator calculation'>
+        data-slide=19 title='renderPrint and renderPlot 2: ICIO Selection Matrix'>
          19
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=20 title='Indicator calculation'>
+        data-slide=20 title='renderPrint and renderPlot 3: STAN R&amp;D'>
          20
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=21 title='Outputs'>
+        data-slide=21 title='renderTable and renderChart: LFS Share'>
          21
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=22 title='Radiant'>
+        data-slide=22 title='renderDataTable: STAN Indicators'>
          22
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=23 title='Radiant'>
+        data-slide=23 title='downloadHandler: SDMX Browser'>
          23
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=24 title='System Architecture'>
+        data-slide=24 title='downloadHandler: STAN R&amp;D'>
          24
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=25 title='References'>
+        data-slide=25 title='R Calculations'>
          25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Example App'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='STAN Indicators'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Example App'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='ICIO Foreign Demand Domestic Value Added 1'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='ICIO Foreign Demand Domestic Value Added 2'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='Integrating Applications'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='Radiant: Data'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='Radiant: Visualize'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='Radiant: Report'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='Advanced Example'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title=''>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title=''>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title=''>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='SDMX Browser: DataTables'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='SDMX Browser: Plots'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='Going Public - Server Hosting'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='System Architecture'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='More Information'>
+         43
       </a>
     </li>
   </ul>

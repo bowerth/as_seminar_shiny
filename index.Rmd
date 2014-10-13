@@ -12,6 +12,7 @@ knit        : slidify::knit2slides
 ext_widgets : {rCharts: [libraries/nvd3]}
 ---
 
+<!-- 
 ## Outline
 
 - R in the Statistical Office
@@ -27,8 +28,7 @@ ext_widgets : {rCharts: [libraries/nvd3]}
 - Applied example: ratio and index calculation
 - Reactive conductors
 - Applied example: SDMX
-
---- .class #id
+-->
 
 ## R and the Statistical Office
 
@@ -82,6 +82,15 @@ Shiny comes in two parts:
 
 <!-- Source: https://github.com/rstudio/shiny -->
 
+--- .class #id
+
+## Use Cases
+
+- Display data: show more data than can be displayed in one chart
+- Explore data: change mapping of variables to visual elements
+- Calculation: derive new indicators from variables in data set
+- Robustness: test sensitivity of results to changes in model parameters
+
 --- &twocol
 
 ## Structure of a Shiny App
@@ -108,7 +117,7 @@ The server-side script `server.R` contains the instructions that are required to
 
 --- &twocol
 
-## Reactive sources and endpoints
+## Reactive Sources and Endpoints
 
 The simplest structure of a reactive program involves just a source and an endpoint:
 
@@ -126,7 +135,7 @@ reactive endpoints are accessible through the `output` object (in most cases). A
 
 --- .class #id
 
-## Example apps
+## Example App
 ### rCharts Polyplot
 
 replication of tableau visualisation [Percentage of employed who are senior managers, by sex](http://www.oecd.org/gender/data/proportionofemployedwhoareseniormanagersbysex.htm)
@@ -157,7 +166,7 @@ http://shiny.rstudio.com/articles/reactivity-overview.html
 
 --- .class #id
 
-## Example apps
+## Example App
 ### histogram
 
 simple histogram with slider to change the binwidth
@@ -175,7 +184,37 @@ simple histogram with slider to change the binwidth
 
 --- .class #id
 
-## Example apps
+## Input Controls
+
+A range of default controls are available:
+
+- actionButton: Action Button
+- checkboxInput: A single check box
+- fileInput: A file upload control wizard
+- helpText: Help text that can be added to an input form
+- numericInput: A field to enter numbers
+- radioButtons: A set of radio buttons
+- selectInput: A box with choices to select from
+- sliderInput: A slider bar
+- textInput: A field to enter text
+
+http://shiny.rstudio.com/tutorial/lesson3/
+
+--- .class #id
+
+### Input Controls 1
+
+<p style="text-align:center"><img src="assets/img/runApp_widgets-1.png" alt="shiny widgets 1" style="width: 950px"/></p>
+
+--- .class #id
+
+### Input Controls 2
+
+<p style="text-align:center"><img src="assets/img/runApp_widgets-2.png" alt="shiny widgets 2" style="width: 950px"/></p>
+
+--- .class #id
+
+## Example App
 ### k-means
 
 k-means clustering, "X" marking the center of the cluster, points coloured according to clusters
@@ -193,55 +232,70 @@ k-means clustering, "X" marking the center of the cluster, points coloured accor
 
 --- .class #id
 
-## `ui.R`: Inputs
+## Display Reactive Output
 
-- actionButton: Action Button
-- checkboxInput: A single check box
-- fileInput: A file upload control wizard
-- helpText: Help text that can be added to an input form
-- numericInput: A field to enter numbers
-- radioButtons: A set of radio buttons
-- selectInput: A box with choices to select from
-- sliderInput: A slider bar
-- textInput: A field to enter text
-
-http://shiny.rstudio.com/tutorial/lesson3/
+- renderPrint: print summary statistics etc.
+- renderPlot: base plot or lattice graphics
+- renderTable: basic table output
+- renderChart: interactive [rCharts](http://rcharts.io/) using d3.js (`js`)
+- renderDataTable: table with embedded controls (`js`)
+- downloadHandler: trigger file download
 
 --- .class #id
 
-### Input Widgets 1
-
-<p style="text-align:center"><img src="assets/img/runApp_widgets-1.png" alt="shiny widgets 1" style="width: 950px"/></p>
-
---- .class #id
-
-### Input Widgets 2
-
-<p style="text-align:center"><img src="assets/img/runApp_widgets-2.png" alt="shiny widgets 2" style="width: 950px"/></p>
+### renderPrint and renderPlot 1: ICIO Barplot by Industry
+<p style="text-align:center"><img src="assets/img/runApp_industry_icioFddva_plots_barchart.png" alt="industry app" style="height: 550px"/></p>
 
 --- .class #id
 
-## `ui.R` and `server.R`: Outputs
-
-2 types:
-- static (native R)
-- dynamic / interactive (using JavaScript)
+### renderPrint and renderPlot 2: ICIO Selection Matrix
+<p style="text-align:center"><img src="assets/img/runApp_industry_icioFddva_plots_dimensions.png" alt="industry app" style="height: 550px"/></p>
 
 --- .class #id
 
-## Example apps
-### Interfacing complex functions: SDMX
-
-- connecting to Java library from R
-- obtain data flows from provider, its dimensions and select codes interacetively
-- send SDMX query to retrieve values
-- transform returned time series into table format, create basic plots and download information
-- see example [SDMX > SDMX Browser](http://10.101.26.220:3838/industry) (only available from OECD network)
+### renderPrint and renderPlot 3: STAN R&D
+<p style="text-align:center"><img src="assets/img/runApp_industry_stanRnd_plots_lines.png" alt="industry app" style="height: 550px"/></p>
 
 --- .class #id
 
-## Indicator calculation
-### Shares and indices
+### renderTable and renderChart: LFS Share 
+<p style="text-align:center"><img src="assets/img/runApp_industry_lfsShare_nvd3charts.png" alt="industry app" style="height: 300px"/></p>
+<p style="text-align:center"><img src="assets/img/runApp_industry_lfsShare_tables.png" alt="industry app" style="height: 200px"/></p>
+
+--- .class #id
+
+### renderDataTable: STAN Indicators
+<p style="text-align:center"><img src="assets/img/runApp_industry_stanIndic_datatables.png" alt="industry app" style="height: 550px"/></p>
+
+--- .class #id
+
+### downloadHandler: SDMX Browser
+<p style="text-align:center"><img src="assets/img/runApp_industry_sdmxBrowser_ui_download_csv.png" alt="industry app" style="height: 170px"/></p>
+<p style="text-align:center"><img src="assets/img/runApp_industry_sdmxBrowser_output_excelcsv.png" alt="industry app" style="height: 300px"/></p>
+
+--- .class #id
+
+### downloadHandler: STAN R&D
+<p style="text-align:center"><img src="assets/img/runApp_industry_stanRnd_download_plot.png" alt="industry app" style="height: 500px"/></p>
+
+--- .class #id
+
+## R Calculations
+
+- shiny requires a running R session 
+- creation of self-service tools for statistical analysis
+- straight-forward use of functions from existing packages
+- beneficial to create own package(s) from scripts early
+ - development: https://github.com/hadley/devtools
+ - documentation: http://r-pkgs.had.co.nz/man.html
+- installation on external server from source code platforms
+
+<p style="text-align:center;"><img src="assets/img/adv-r_binding.png" alt="function binding" style="height: 200px"/></p>
+
+--- .class #id
+
+## Example App
+### STAN Indicators
 
 - define formula: `IPYE = VALK / EMPN / (VALK_2005 / EMPN_2005)`
 - parse formula: remove non-alphanumeric characters: `[^a-zA-Z0-9]`
@@ -249,12 +303,16 @@ http://shiny.rstudio.com/tutorial/lesson3/
 - pivot with denominators: `VALU|EMPN|VALK|VALU_2005|EMPN_2005|VALK_2005`
 - calculate `IPYE` according to formula
 
-Example: `stanIndic`
+--- .class #id
+
+### STAN Indicators
+
+<p style="text-align:center;"><img src="assets/img/runApp_industry_stanIndic_plots_line.png" alt="industry app" style="height: 500px"/></p>
 
 --- .class #id
 
-## Indicator calculation
-### Linear algebra
+## Example App
+### ICIO Foreign Demand Domestic Value Added
 
 - select dimensions
 - subset data from multidimensional arrays
@@ -266,42 +324,124 @@ aaa <- xB %*% data.couX.indX
 aaa <- apply(aaa, 1, sum)
 ```
 
-- aggregate results
-
-Example: `icioFddva`
+- aggregate and display results (table, barchart, map)
 
 --- .class #id
 
-## Outputs
-### Export data and charts
+### ICIO Foreign Demand Domestic Value Added 1
 
-Example:
-
---- .class #id
-
-## Radiant
-### Report generation
-
-Create HTML reports with embedded `Ace` text editor
+<p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_aggregation.png" alt="industry app" style="height: 500px"/></p>
 
 --- .class #id
 
-## Radiant
-### Integrate independent applications
+### ICIO Foreign Demand Domestic Value Added 2
 
-Generate applications from a single script using functions
+<p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_edit.png" alt="industry app" style="height: 550px"/></p>
+
+--- .class #id
+
+## Integrating Applications
+### Radiant
+
+Perform various tasks on the same dataset
+- customize UI to make best use of a single R function
+- optimized outputs are returned from function calls
+
+“There are only two hard things in Computer Science: cache invalidation and naming things.” 
+Phil Karlton
+
+Requires systematic structure:
+- naming conflicts: prepend objects and functions with application id
+- common data across applications: reduce memory requirements
+- generalize processing and and exporting of results
+- flexibly expand and shrink functionality (testing, production)
+
+--- .class #id
+
+### Radiant: Data
+
+<p style="text-align:center;"><img src="assets/img/runApp_radiant_data_manage.png" alt="industry app" style="height: 500px"/></p>
+
+--- .class #id
+
+### Radiant: Visualize
+
+<p style="text-align:center;"><img src="assets/img/runApp_radiant_data_visualize.png" alt="industry app" style="height: 500px"/></p>
+
+--- .class #id
+
+### Radiant: Report
+
+<p style="text-align:center;"><img src="assets/img/runApp_radiant_data_report_preview.png" alt="industry app" style="height: 550px"/></p>
+
+--- .class #id
+
+## Advanced Example
+### SDMX Browser
+
+- connecting to Java library from R
+- obtain data flows from provider, its dimensions and select codes interacetively
+- send SDMX query to retrieve values
+- transform returned time series into table format, create basic plots and download information
+
+<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxlogo.png" alt="industry app"/></p>
+
+--- .class #id
+
+<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_amattioc.png" alt="industry app"/></p>
+
+--- .class #id
+
+<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxHelp().png" alt="industry app"/></p>
+
+--- .class #id
+
+<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_ui_flow.png" alt="industry app"/></p>
+
+--- .class #id
+
+### SDMX Browser: DataTables
+<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_datatables.png" alt="industry app"/></p>
+
+--- .class #id
+
+### SDMX Browser: Plots
+<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_plots.png" alt="industry app"/></p>
+
+--- .class #id
+
+## Going Public - Server Hosting
+
+RStudio server: shinyapps.io
+- free beta
+- no maintenance
+- good performance
+- intuitive interface
+- professional subscriptions coming soon
+
+Self-hosting on cloud server: 
+- Microsoft Azure (or: Amazon EC2, Google...)
+- Spec: 4-core, 2GB RAM: 1300 Euros p.a.
+- RedHat Server license: 500 Euros p.a.
 
 --- .class #id
 
 ## System Architecture
 
-<img src="assets/img/architecture.svg" alt="reactive programming" style="height: 450px"/>
+<p style="text-align:center;"><img src="assets/img/architecture.svg" alt="reactive programming" style="height: 400px"/></p>
 
 - testing environment: http://10.101.26.220:3838/industry
 - production environment: http://oecd-icio.cloudapp.net:3838
 
 --- .class #id
 
-## References
+## More Information
 
-Developer page: http://shiny.rstudio.com
+Shiny Tutorial:
+
+- http://shiny.rstudio.com/tutorial
+
+Massive Open Online Courses:
+
+- CS109 Data Science, School of Engineering and Applied Sciences http://cs109.github.io/2014/
+- Developing Data Products by Brian Caffo, PhD, Jeff Leek, PhD, Roger D. Peng, PhD, John Hopkins University, Bloomberg School of Public Health (part of Data Science specialisation)
