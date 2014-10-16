@@ -48,47 +48,6 @@
 
     <!-- SLIDES -->
     <slide class="" id="slide-1" style="background:;">
-  <article data-timings="">
-    <!-- 
-## Outline
-
-- R in the Statistical Office
-- Motivation
-- About Shiny
-- Shiny features
-- Structure of a Shiny App
- - ui.R
- - server.R
-- Example apps
-- Reactive programming model
-- Reactive sources end endpoints
-- Applied example: ratio and index calculation
-- Reactive conductors
-- Applied example: SDMX
--->
-
-<h2>R and the Statistical Office</h2>
-
-<ul>
-<li>Visit UNIDO to discuss automatic data validation</li>
-<li>Design interfaces: make R functions available to economists</li>
-<li><code>gWidgets2</code> by John Verzani useful but complex and rigid</li>
-<li><code>shiny</code> by Joe Cheng (now RStudio) very intuitive and flexible</li>
-<li>first test: app to explore Paris real estate offers</li>
-<li>challenge: can it be used for professional tasks?
-
-<ul>
-<li>trade-off between convention and customisation</li>
-<li>expectations to interactive tools: when do they become useful?</li>
-<li>can smooth transition from statistical to analytical tasks?</li>
-</ul></li>
-</ul>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="" id="slide-2" style="background:;">
   <hgroup>
     <h2>Motivation</h2>
   </hgroup>
@@ -117,6 +76,8 @@
 <li>transparency</li>
 </ul>
 
+<p style="text-align:center"><img src="assets/img/tableau_logo.jpg" alt="tableau logo" height="200px"/></p>
+
 </div>
   </article>
   <!-- Presenter Notes -->
@@ -143,8 +104,6 @@
 <li>Shiny server for deploying them</li>
 </ol>
 
-<!-- Source: https://github.com/rstudio/shiny -->
-
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -161,11 +120,15 @@
 <li>Robustness: test sensitivity of results to changes in model parameters</li>
 </ul>
 
+<p style="text-align:center"><img src="assets/img/shiny_gallery.png" alt="shiny gallery"/></p>
+
+<p><a href="http://shiny.rstudio.com/gallery/">http://shiny.rstudio.com/gallery/</a></p>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-5" style="background:;">
+<slide class="" id="slide-4" style="background:;">
   <hgroup>
     <h2>Structure of a Shiny App</h2>
   </hgroup>
@@ -200,7 +163,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-6" style="background:;">
+<slide class="" id="slide-5" style="background:;">
   <hgroup>
     <h2>Reactive Sources and Endpoints</h2>
   </hgroup>
@@ -240,8 +203,6 @@
 <li>function: interactive data display with rCharts&#39; <code>polycharts</code> binding</li>
 <li>reference: <a href="http://ramnathv.github.io/rChartsShiny/">http://ramnathv.github.io/rChartsShiny/</a></li>
 </ul>
-
-<p>Note: uses <code>global.R</code> script to load data</p>
 
   </article>
   <!-- Presenter Notes -->
@@ -661,7 +622,7 @@ Phil Karlton</p>
 <li>transform returned time series into table format, create basic plots and download information</li>
 </ul>
 
-<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxlogo.png" alt="industry app"/></p>
+<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxlogo.png" alt="SDMX logo"/></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -669,7 +630,7 @@ Phil Karlton</p>
 
 <slide class="class" id="id" style="background:;">
   <article data-timings="">
-    <p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_amattioc.png" alt="industry app"/></p>
+    <p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_amattioc.png" alt="SDMX GitHub Repository"/></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -677,7 +638,7 @@ Phil Karlton</p>
 
 <slide class="class" id="id" style="background:;">
   <article data-timings="">
-    <p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxHelp().png" alt="industry app"/></p>
+    <p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxHelp().png" alt="RJSDMX sdmxHelp()"/></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -745,7 +706,7 @@ Phil Karlton</p>
     <h2>System Architecture</h2>
   </hgroup>
   <article data-timings="">
-    <p style="text-align:center;"><img src="assets/img/architecture.svg" alt="reactive programming" style="height: 400px"/></p>
+    <p style="text-align:center;"><img src="assets/img/architecture.svg" alt="OECD Server Architecture" style="height: 400px"/></p>
 
 <ul>
 <li>testing environment: <a href="http://10.101.26.220:3838/industry">http://10.101.26.220:3838/industry</a></li>
@@ -758,7 +719,7 @@ Phil Karlton</p>
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h2>More Information</h2>
+    <h2>How to get started</h2>
   </hgroup>
   <article data-timings="">
     <p>Shiny Tutorial:</p>
@@ -778,217 +739,227 @@ Phil Karlton</p>
   <!-- Presenter Notes -->
 </slide>
 
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Questions?</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
     <slide class="backdrop"></slide>
   </slides>
   <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
     <ul>
       <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=1 title=''>
+        data-slide=1 title='Motivation'>
          1
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=2 title='Motivation'>
+        data-slide=2 title='What is Shiny?'>
          2
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='What is Shiny?'>
+        data-slide=3 title='Use Cases'>
          3
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='Use Cases'>
+        data-slide=4 title='Structure of a Shiny App'>
          4
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=5 title='Structure of a Shiny App'>
+        data-slide=5 title='Reactive Sources and Endpoints'>
          5
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=6 title='Reactive Sources and Endpoints'>
+        data-slide=6 title='Example App'>
          6
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=7 title='Example App'>
+        data-slide=7 title=''>
          7
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=8 title=''>
+        data-slide=8 title='Reactive programming model'>
          8
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=9 title='Reactive programming model'>
+        data-slide=9 title='Example App'>
          9
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=10 title='Example App'>
+        data-slide=10 title='histogram'>
          10
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=11 title='histogram'>
+        data-slide=11 title='Input Controls'>
          11
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=12 title='Input Controls'>
+        data-slide=12 title='Input Controls 1'>
          12
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=13 title='Input Controls 1'>
+        data-slide=13 title='Input Controls 2'>
          13
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=14 title='Input Controls 2'>
+        data-slide=14 title='Example App'>
          14
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=15 title='Example App'>
+        data-slide=15 title='k-means'>
          15
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=16 title='k-means'>
+        data-slide=16 title='Display Reactive Output'>
          16
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=17 title='Display Reactive Output'>
+        data-slide=17 title='renderPrint and renderPlot 1: ICIO Barplot by Industry'>
          17
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=18 title='renderPrint and renderPlot 1: ICIO Barplot by Industry'>
+        data-slide=18 title='renderPrint and renderPlot 2: ICIO Selection Matrix'>
          18
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=19 title='renderPrint and renderPlot 2: ICIO Selection Matrix'>
+        data-slide=19 title='renderPrint and renderPlot 3: STAN R&amp;D'>
          19
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=20 title='renderPrint and renderPlot 3: STAN R&amp;D'>
+        data-slide=20 title='renderTable and renderChart: LFS Share'>
          20
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=21 title='renderTable and renderChart: LFS Share'>
+        data-slide=21 title='renderDataTable: STAN Indicators'>
          21
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=22 title='renderDataTable: STAN Indicators'>
+        data-slide=22 title='downloadHandler: SDMX Browser'>
          22
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=23 title='downloadHandler: SDMX Browser'>
+        data-slide=23 title='downloadHandler: STAN R&amp;D'>
          23
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=24 title='downloadHandler: STAN R&amp;D'>
+        data-slide=24 title='R Calculations'>
          24
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=25 title='R Calculations'>
+        data-slide=25 title='Example App'>
          25
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=26 title='Example App'>
+        data-slide=26 title='STAN Indicators'>
          26
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=27 title='STAN Indicators'>
+        data-slide=27 title='Example App'>
          27
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=28 title='Example App'>
+        data-slide=28 title='ICIO Foreign Demand Domestic Value Added 1'>
          28
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=29 title='ICIO Foreign Demand Domestic Value Added 1'>
+        data-slide=29 title='ICIO Foreign Demand Domestic Value Added 2'>
          29
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=30 title='ICIO Foreign Demand Domestic Value Added 2'>
+        data-slide=30 title='Integrating Applications'>
          30
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=31 title='Integrating Applications'>
+        data-slide=31 title='Radiant: Data'>
          31
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=32 title='Radiant: Data'>
+        data-slide=32 title='Radiant: Visualize'>
          32
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=33 title='Radiant: Visualize'>
+        data-slide=33 title='Radiant: Report'>
          33
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=34 title='Radiant: Report'>
+        data-slide=34 title='Advanced Example'>
          34
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=35 title='Advanced Example'>
+        data-slide=35 title=''>
          35
       </a>
     </li>
@@ -1006,37 +977,37 @@ Phil Karlton</p>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=38 title=''>
+        data-slide=38 title='SDMX Browser: DataTables'>
          38
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=39 title='SDMX Browser: DataTables'>
+        data-slide=39 title='SDMX Browser: Plots'>
          39
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=40 title='SDMX Browser: Plots'>
+        data-slide=40 title='Going Public - Server Hosting'>
          40
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=41 title='Going Public - Server Hosting'>
+        data-slide=41 title='System Architecture'>
          41
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=42 title='System Architecture'>
+        data-slide=42 title='How to get started'>
          42
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=43 title='More Information'>
+        data-slide=43 title='Questions?'>
          43
       </a>
     </li>

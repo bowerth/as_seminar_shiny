@@ -10,44 +10,12 @@ widgets     : []            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 knit        : slidify::knit2slides
 ext_widgets : {rCharts: [libraries/nvd3]}
----
-
-<!-- 
-## Outline
-
-- R in the Statistical Office
-- Motivation
-- About Shiny
-- Shiny features
-- Structure of a Shiny App
- - ui.R
- - server.R
-- Example apps
-- Reactive programming model
-- Reactive sources end endpoints
-- Applied example: ratio and index calculation
-- Reactive conductors
-- Applied example: SDMX
--->
-
-## R and the Statistical Office
-
-- Visit UNIDO to discuss automatic data validation
-- Design interfaces: make R functions available to economists
-- `gWidgets2` by John Verzani useful but complex and rigid
-- `shiny` by Joe Cheng (now RStudio) very intuitive and flexible
-- first test: app to explore Paris real estate offers
-- challenge: can it be used for professional tasks?
- - trade-off between convention and customisation
- - expectations to interactive tools: when do they become useful?
- - can smooth transition from statistical to analytical tasks?
 
 --- &twocol
 
 ## Motivation
 
 *** =left
-
 ### +
 - access speed
 - routine operations
@@ -57,12 +25,13 @@ ext_widgets : {rCharts: [libraries/nvd3]}
 - user empowerment
 
 *** =right
-
 ### -
 - development time
 - changing requirements
 - maintenance
 - transparency
+
+<p style="text-align:center"><img src="assets/img/tableau_logo.jpg" alt="tableau logo" height="200px"/></p>
 
 --- .class #id
 
@@ -80,8 +49,6 @@ Shiny comes in two parts:
 1. the shiny R package for developing Shiny apps
 2. Shiny server for deploying them
 
-<!-- Source: https://github.com/rstudio/shiny -->
-
 --- .class #id
 
 ## Use Cases
@@ -90,6 +57,10 @@ Shiny comes in two parts:
 - Explore data: change mapping of variables to visual elements
 - Calculation: derive new indicators from variables in data set
 - Robustness: test sensitivity of results to changes in model parameters
+
+<p style="text-align:center"><img src="assets/img/shiny_gallery.png" alt="shiny gallery"/></p>
+
+http://shiny.rstudio.com/gallery/
 
 --- &twocol
 
@@ -144,8 +115,6 @@ replication of tableau visualisation [Percentage of employed who are senior mana
 - source: International Labor Organization
 - function: interactive data display with rCharts' `polycharts` binding
 - reference: http://ramnathv.github.io/rChartsShiny/
-
-Note: uses `global.R` script to load data
 
 --- .class #id
 
@@ -203,13 +172,11 @@ http://shiny.rstudio.com/tutorial/lesson3/
 --- .class #id
 
 ### Input Controls 1
-
 <p style="text-align:center"><img src="assets/img/runApp_widgets-1.png" alt="shiny widgets 1" style="width: 950px"/></p>
 
 --- .class #id
 
 ### Input Controls 2
-
 <p style="text-align:center"><img src="assets/img/runApp_widgets-2.png" alt="shiny widgets 2" style="width: 950px"/></p>
 
 --- .class #id
@@ -227,7 +194,6 @@ k-means clustering, "X" marking the center of the cluster, points coloured accor
 --- .class #id
 
 ### k-means
-
 <p style="text-align:center"><img src="assets/img/runApp_k-means.png" alt="k-means app" style="height: 550px"/></p>
 
 --- .class #id
@@ -306,7 +272,6 @@ k-means clustering, "X" marking the center of the cluster, points coloured accor
 --- .class #id
 
 ### STAN Indicators
-
 <p style="text-align:center;"><img src="assets/img/runApp_industry_stanIndic_plots_line.png" alt="industry app" style="height: 500px"/></p>
 
 --- .class #id
@@ -329,13 +294,11 @@ aaa <- apply(aaa, 1, sum)
 --- .class #id
 
 ### ICIO Foreign Demand Domestic Value Added 1
-
 <p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_aggregation.png" alt="industry app" style="height: 500px"/></p>
 
 --- .class #id
 
 ### ICIO Foreign Demand Domestic Value Added 2
-
 <p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_edit.png" alt="industry app" style="height: 550px"/></p>
 
 --- .class #id
@@ -359,19 +322,16 @@ Requires systematic structure:
 --- .class #id
 
 ### Radiant: Data
-
 <p style="text-align:center;"><img src="assets/img/runApp_radiant_data_manage.png" alt="industry app" style="height: 500px"/></p>
 
 --- .class #id
 
 ### Radiant: Visualize
-
 <p style="text-align:center;"><img src="assets/img/runApp_radiant_data_visualize.png" alt="industry app" style="height: 500px"/></p>
 
 --- .class #id
 
 ### Radiant: Report
-
 <p style="text-align:center;"><img src="assets/img/runApp_radiant_data_report_preview.png" alt="industry app" style="height: 550px"/></p>
 
 --- .class #id
@@ -384,15 +344,15 @@ Requires systematic structure:
 - send SDMX query to retrieve values
 - transform returned time series into table format, create basic plots and download information
 
-<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxlogo.png" alt="industry app"/></p>
+<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxlogo.png" alt="SDMX logo"/></p>
 
 --- .class #id
 
-<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_amattioc.png" alt="industry app"/></p>
+<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_amattioc.png" alt="SDMX GitHub Repository"/></p>
 
 --- .class #id
 
-<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxHelp().png" alt="industry app"/></p>
+<p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_sdmxHelp().png" alt="RJSDMX sdmxHelp()"/></p>
 
 --- .class #id
 
@@ -428,14 +388,14 @@ Self-hosting on cloud server:
 
 ## System Architecture
 
-<p style="text-align:center;"><img src="assets/img/architecture.svg" alt="reactive programming" style="height: 400px"/></p>
+<p style="text-align:center;"><img src="assets/img/architecture.svg" alt="OECD Server Architecture" style="height: 400px"/></p>
 
 - testing environment: http://10.101.26.220:3838/industry
 - production environment: http://oecd-icio.cloudapp.net:3838
 
 --- .class #id
 
-## More Information
+## How to get started
 
 Shiny Tutorial:
 
@@ -445,3 +405,7 @@ Massive Open Online Courses:
 
 - CS109 Data Science, School of Engineering and Applied Sciences http://cs109.github.io/2014/
 - Developing Data Products by Brian Caffo, PhD, Jeff Leek, PhD, Roger D. Peng, PhD, John Hopkins University, Bloomberg School of Public Health (part of Data Science specialisation)
+
+--- .class #id
+
+## Questions?
