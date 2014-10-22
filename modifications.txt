@@ -1,0 +1,3 @@
+Possible modifications:
+- add chart after slide "Example App: ICIO Foreign Demand Domestic Value Added": selection matrix NAFTA
+- add "Harvard" to reference CS109

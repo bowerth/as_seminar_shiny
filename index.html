@@ -209,8 +209,32 @@
 </slide>
 
 <slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>rCharts Polyplot</h3>
+  </hgroup>
   <article data-timings="">
-    <p style="text-align:center"><img src="assets/img/runApp_rChartsPolyplot.png" alt="rChartsPolyplot app" style="height: 550px"/></p>
+    <p style="text-align:center"><img src="assets/img/runApp_rChartsPolyplot.png" alt="rChartsPolyplot app"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>rCharts Polyplot</h3>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">  ## ui.R
+  selectInput(inputId = &quot;country&quot;)
+</code></pre>
+
+<pre><code class="r">  ## server.R
+  output$chart2 &lt;- renderChart({
+    data.country = subset(dat2m, country == input$country)
+    p2 &lt;- rPlot(value ~ year, color = &#39;gender&#39;, type = &#39;line&#39;, data = data.country)
+    return(p2)
+})
+</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -221,13 +245,13 @@
     <h2>Reactive programming model</h2>
   </hgroup>
   <article data-timings="">
-    <h3>Reactive conductors</h3>
+    <h3>Reactive expressions as conductors</h3>
 
-<p>The amount of computation can be reduced by adding a reactive conductor in between the source and endpoints:</p>
+<p>The amount of computation can be reduced by adding a reactive expression in between the source and endpoints:</p>
 
 <p style="text-align:center"><img src="assets/img/reactive_programming_model_schema_conductor.png" alt="reactive conductor" style="height: 125px"/></p>
 
-<p>Reactive conductors are placed somewhere in between sources and endpoints on the reactive graph. They are typically used for encapsulating slow operations. Try to prevent unnecessary work, especially if the app needs to do a lot of slow computation.</p>
+<p>Reactive expressions are placed somewhere in between sources and endpoints on the reactive graph. They are typically used for encapsulating slow operations. Try to prevent unnecessary work, especially if the app needs to do a lot of slow computation.</p>
 
 <p><a href="http://shiny.rstudio.com/articles/reactivity-overview.html">http://shiny.rstudio.com/articles/reactivity-overview.html</a></p>
 
@@ -261,6 +285,51 @@
   </hgroup>
   <article data-timings="">
     <p style="text-align:center"><img src="assets/img/runApp_histogram.png" alt="histogram app" style="height: 550px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>histogram</h3>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">  ## ui.R
+  sliderInput(&quot;bins&quot;, &quot;Number of bins:&quot;, min = 1, max = 50, value = 30)
+
+  plotOutput(&quot;distPlot&quot;)
+</code></pre>
+
+<pre><code class="r">  ## server.R
+  bins &lt;- reactive({
+    seq(min(x), max(x), length.out = input$bins + 1)
+  })
+
+  output$distPlot &lt;- renderPlot({
+    hist(x, breaks = bins(), col = &#39;darkgray&#39;, border = &#39;white&#39;)
+  })
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>histogram</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>Reactive Evaluation</p>
+
+<p>When you change “Number of bins&quot;, <code>input$bins</code> will change and <code>renderPlot</code> will re-execute. </p>
+
+<ol>
+<li><code>renderPlot</code> will call <code>bins()</code></li>
+<li><code>bins</code> will check that the bins widget has changed</li>
+<li><code>bins</code> will return its new value</li>
+<li><code>renderPlot</code> will re-draw the chart with the correct number of bins.</li>
+</ol>
 
   </article>
   <!-- Presenter Notes -->
@@ -346,17 +415,69 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
+    <h3>k-means</h3>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">  ## ui.R
+  selectInput(&#39;xcol&#39;, &#39;X Variable&#39;, names(iris)),
+  selectInput(&#39;ycol&#39;, &#39;Y Variable&#39;, names(iris), selected=names(iris)[2]),
+  numericInput(&#39;clusters&#39;, &#39;Cluster count&#39;, 3)
+</code></pre>
+
+<pre><code class="r">  ## server.R
+  selectedData &lt;- reactive({ iris[, c(input$xcol, input$ycol)] })
+  clusters &lt;- reactive({ kmeans(selectedData(), input$clusters) })
+  output$plot1 &lt;- renderPlot({
+    par(mar = c(5.1, 4.1, 0, 2.1))
+    plot(selectedData(), col=clusters()$cluster)
+    points(clusters()$centers, pch=4, ces=2)
+  })
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>k-means</h3>
+  </hgroup>
+  <article data-timings="">
+    <p>Reactive Evaluation</p>
+
+<p>When you change “Cluster count&quot;, <code>input$clusters</code> will change and <code>renderPlot</code> will re-execute. </p>
+
+<ol>
+<li><code>renderPlot</code> will call <code>clusters()</code></li>
+<li><code>clusters</code> will check that the clusters widget has changed</li>
+<li><code>clusters</code> will return its new value</li>
+<li><code>renderPlot</code> will re-draw the chart with the correct number of clusters.</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
     <h2>Display Reactive Output</h2>
   </hgroup>
   <article data-timings="">
-    <ul>
+    <p>Each entry to output should contain the output of one of Shiny’s <code>render*</code> functions</p>
+
+<ul>
 <li>renderPrint: print summary statistics etc.</li>
 <li>renderPlot: base plot or lattice graphics</li>
 <li>renderTable: basic table output</li>
 <li>renderChart: interactive <a href="http://rcharts.io/">rCharts</a> using d3.js (<code>js</code>)</li>
 <li>renderDataTable: table with embedded controls (<code>js</code>)</li>
+<li>renderUI a tag object or HTML</li>
 <li>downloadHandler: trigger file download</li>
 </ul>
+
+<p>The expression can be a simple statment or a complicated function call. It will re-run the expression everytime an upstream object changes. The expression must return an object (text, plot etc.) that is supported by the respective <code>render*</code> function.</p>
+
+<p>Source: <a href="http://shiny.rstudio.com/tutorial/lesson4/">http://shiny.rstudio.com/tutorial/lesson4/</a></p>
 
   </article>
   <!-- Presenter Notes -->
@@ -375,10 +496,74 @@
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
+    <h3>renderPrint and renderPlot 1: ICIO Barplot by Industry</h3>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">  ## renderPlot
+  barplot(data.plot$value,
+    beside = TRUE,
+    names = data.plot$names, las = 2, cex.names = .8,
+    ylab = unit.string,
+    col = &quot;#4F81BD&quot;)
+  par(op)
+  mtext(title.string, line = 2, font = 2, cex = 1.2)
+  op &lt;- par(usr=c(0,0.1,0,1.05), xpd=NA)
+  legend(0, 1.1, legend=data.sort, cex=0.8, box.col = NA, horiz = TRUE)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>renderPrint and renderPlot 1: ICIO Barplot by Industry</h3>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">  ## renderPrint
+  blurb.string &lt;- paste0(
+    as.character(blurb$couS), &#39; &#39;, tolower(blurb$coef), &#39;, in source industry, \n&#39;,
+    &#39;generated by &#39;, blurb$couD, &#39; &#39;, tolower(blurb$demand), &#39; of \n&#39;,
+    blurb$couX1, &#39; exports of &#39;, blurb$indX, &#39;, \n&#39;,
+    blurb$year, &#39;.&#39;)
+  blurb.string.template &lt;- paste0(&#39;&lt;couS&gt;&lt;coef&gt;, in source industry,\n&#39;,
+    &#39;generated by &lt;couD&gt;&lt;demand&gt; of \n&#39;,
+    &#39;&lt;couX&gt; exports of &lt;indX&gt;, \n&#39;,
+    &#39;&lt;year&gt;.&#39;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
     <h3>renderPrint and renderPlot 2: ICIO Selection Matrix</h3>
   </hgroup>
   <article data-timings="">
     <p style="text-align:center"><img src="assets/img/runApp_industry_icioFddva_plots_dimensions.png" alt="industry app" style="height: 550px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>renderPrint and renderPlot 2: ICIO Selection Matrix</h3>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">  ## renderPlot
+  x &lt;- data.conv1
+  x &lt;- x[, rev(seq_len(ncol(x)))]
+  xLabels &lt;- rownames(x)
+  yLabels &lt;- colnames(x)
+  i &lt;- image(1:length(xLabels), 1:length(yLabels), x,
+   col = c(&quot;white&quot;, &quot;green&quot;),
+   xlab = &quot;Export Country + Demand or Final Expenditure Industry (couX + indX)&quot;,
+   ylab = &quot;Demand Country (couD)&quot;,
+   axes = FALSE)
+  return(i)
+</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -510,9 +695,9 @@
 <li>perform calculations:</li>
 </ul>
 
-<pre><code>data.couX.indX &lt;- data.conv1 * data.demand
-aaa &lt;- xB %*% data.couX.indX
-aaa &lt;- apply(aaa, 1, sum)
+<pre><code class="r">  data.couX.indX &lt;- data.conv1 * data.demand
+  aaa &lt;- xB %*% data.couX.indX
+  aaa &lt;- apply(aaa, 1, sum)
 </code></pre>
 
 <ul>
@@ -525,7 +710,18 @@ aaa &lt;- apply(aaa, 1, sum)
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h3>ICIO Foreign Demand Domestic Value Added 1</h3>
+    <h3>ICIO Foreign Demand Domestic: couD, couX, indX</h3>
+  </hgroup>
+  <article data-timings="">
+    <p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_plots_dimensions_nafta.png" alt="industry app" style="height: 500px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h3>ICIO Foreign Demand Domestic Value Added: calculation + aggregation</h3>
   </hgroup>
   <article data-timings="">
     <p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_aggregation.png" alt="industry app" style="height: 500px"/></p>
@@ -536,7 +732,7 @@ aaa &lt;- apply(aaa, 1, sum)
 
 <slide class="class" id="id" style="background:;">
   <hgroup>
-    <h3>ICIO Foreign Demand Domestic Value Added 2</h3>
+    <h3>ICIO Foreign Demand Domestic Value Added: aceEditor</h3>
   </hgroup>
   <article data-timings="">
     <p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_edit.png" alt="industry app" style="height: 550px"/></p>
@@ -576,6 +772,30 @@ Phil Karlton</p>
 </slide>
 
 <slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">  ## radiant.R
+  statPanel &lt;- function(fun_name, rfun_label, fun_label, fun_tabs) {
+    sum_name &lt;- paste0(&quot;summary_&quot;, fun_label)
+    plot_name &lt;- paste0(&quot;plots_&quot;, fun_label)
+    output[[sum_name]] &lt;- renderPrint({
+      result &lt;- get(rfun_label)()
+      get(sum_name)()
+    })
+    output[[plot_name]] &lt;- renderPlot({
+      result &lt;- get(rfun_label)()
+      get(plot_name)()
+    })
+    string.tabPanel &lt;- paste0(&#39;tabPanel(&quot;Plots&quot;, plotOutput(plot_name, height = &quot;100%&quot;),\n&#39;,
+      &#39;verbatimTextOutput(sum_name))&#39;)
+    string.tabsetPanel &lt;- paste0(string.tabsetPanel, string.tabPanel, sep = &#39;,\n&#39;)
+    return(eval(parse(text=paste0(&#39;tabsetPanel(id=&quot;tabs_&#39;,fun_label,&#39;&quot;,\n&#39;,string.tabsetPanel,&#39;)&#39;))))}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
   <hgroup>
     <h3>Radiant: Data</h3>
   </hgroup>
@@ -603,6 +823,81 @@ Phil Karlton</p>
   </hgroup>
   <article data-timings="">
     <p style="text-align:center;"><img src="assets/img/runApp_radiant_data_report_preview.png" alt="industry app" style="height: 550px"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">  rmd_example &lt;- &quot;## Sample report in Markdown
+  This is an example report in markdown. You can embed R code to be executed.
+  &#39;&#39;&#39;{r}
+  rnorm(5)
+  x &lt;- 14*3
+  &#39;&#39;&#39;
+  ### Inline code
+  Inline R code, e.g., the value of x is &#39;r x&#39;.
+
+  ### Math
+  LaTeX math:  $f(\\\\alpha, \\\\beta) \\\\propto x^{\\\\alpha-1}(1-x)^{\\\\beta-1}$.
+
+  ### Figures
+  &#39;&#39;&#39;{r}
+  hist(rnorm(100))
+  &#39;&#39;&#39;
+  &quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">  ## Radiant report UI
+  output$report &lt;- renderUI({
+    div(class=&quot;row-fluid&quot;, 
+      div(class=&quot;span6&quot;,
+        aceEditor(&quot;rmd_report&quot;, mode=&quot;markdown&quot;, value=state_init(&quot;rmd_report&quot;,rmd_example)),
+        ## vimKeyBinding=vimKeyBinding),
+        actionButton(&quot;evalRmd&quot;, &quot;Update&quot;),
+        downloadButton(&#39;saveHTML&#39;, &#39;Save HTML&#39;),
+        downloadButton(&#39;saveRmd&#39;, &#39;Save Rmd&#39;), tags$br(), tags$br(),
+        fileInput(&#39;loadRmd&#39;, &#39;Load Rmd&#39;, multiple=TRUE)),
+
+      div(class=&quot;span6&quot;,
+        htmlOutput(&quot;rmd_knitDoc&quot;))
+      )
+  })
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">  ## Radiant report functions
+  output$rmd_knitDoc &lt;- renderUI({
+    if(is.null(input$evalRmd) || input$evalRmd == 0) return()
+      isolate({
+        if(running_local &amp;&amp; input$rmd_report != &quot;&quot;) {
+          return(HTML(paste(knit2html(text = input$rmd_report, fragment.only = TRUE, quiet = TRUE), 
+            &#39;&lt;script&gt;&#39;, &#39;MathJax.Hub.Typeset();&#39;, &#39;&lt;/script&gt;&#39;, 
+            sep = &#39;\n&#39;)))
+        }})
+  })
+
+  output$saveHTML &lt;- downloadHandler(
+    filename = function() {&quot;report.html&quot;},
+    content = function(file) {
+     isolate({
+      html &lt;- knit2html(text = input$rmd_report, quiet = TRUE, 
+        options=c(&quot;mathjax&quot;, &quot;base64_images&quot;))
+      cat(html, file = file, sep = &#39;\n&#39;)
+    })})
+</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -647,6 +942,79 @@ Phil Karlton</p>
 <slide class="class" id="id" style="background:;">
   <article data-timings="">
     <p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_ui_flow.png" alt="industry app"/></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">  ## Provider
+  output$uisB_provider &lt;- renderUI({
+    ui.sdmxbrowser_provider &lt;- getProviders()
+    selectInput(&quot;sdmxbrowser_provider&quot;, &quot;Provider:&quot;, ui.sdmxbrowser_provider,
+      selected = state_init_list(&quot;sdmxbrowser_provider&quot;,&quot;EUROSTAT&quot;, ui.sdmxbrowser_provider),
+      multiple = FALSE)
+  })
+</code></pre>
+
+<pre><code class="r">  ## Flow
+  sdmxbrowser_provider &lt;- input$sdmxbrowser_provider
+  if (input$sdmxbrowser_flow_updateButton != 0) {
+    load(&quot;data/data_init/sdmxBrowser.rda&quot;)
+  }
+  ui.sdmxbrowser_flow &lt;- ui.sdmxBrowser.flows.list[[sdmxbrowser_provider]]
+  selectInput(&quot;sdmxbrowser_flow&quot;, &quot;Flow:&quot;, c(&quot;&quot;, ui.sdmxbrowser_flow),
+    selected = &quot;&quot;, multiple = FALSE)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">  ## Dimensions
+  .sdmxbrowser_dimensions_all &lt;- reactive({
+    sdmxbrowser_dimensions_all&lt;- names(getDimensions(input$sdmxbrowser_provider,
+      input$sdmxbrowser_flow))
+    return(sdmxbrowser_dimensions_all)
+  })
+  output$uisB_dimensions &lt;- renderUI({
+    if (input$sdmxbrowser_flow==&quot;&quot;) return()
+      sdmxbrowser_dimensions_all &lt;- .sdmxbrowser_dimensions_all()
+    selectInput(&quot;sdmxbrowser_dimensions&quot;, &quot;Filter Dimensions:&quot;, sdmxbrowser_dimensions_all,
+      selected = sdmxbrowser_dimensions_all,
+      multiple = TRUE, selectize = FALSE)
+  })
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">  ## Dimension Codes
+  .sdmxbrowser_dimensioncodes &lt;- reactive({
+    sdmxbrowser_dimensions &lt;- input$sdmxbrowser_dimensions
+    sdmxbrowser_dimensioncodes &lt;- as.list(sdmxbrowser_dimensions)
+    sdmxbrowser_dimensioncodes &lt;- sapply(sdmxbrowser_dimensioncodes,function(x) NULL)
+    names(sdmxbrowser_dimensioncodes) &lt;- sdmxbrowser_dimensions
+    return(sdmxbrowser_dimensioncodes)
+  })
+  output$uisB_dimensioncodes &lt;- renderUI({
+    for (d in seq(along = sdmxbrowser_dimensions)) {
+      command &lt;- paste0(&#39;selectInput(&quot;sdmxbrowser_dimensioncodes_&#39;, d,
+        &#39;&quot;, &quot;Select &#39;, sdmxbrowser_dimensions[d],
+        &#39;:&quot;, c(&quot;&#39;,
+          gsub(&#39;, &#39;, &#39;&quot;, &quot;&#39;, toString(sdmxbrowser_dimensioncodes[[d]])),
+          &#39;&quot;), selected = &quot;&#39;, sdmxbrowser_dimensioncodes[[d]][1], 
+      &#39;&quot;, multiple = TRUE, selectize = TRUE)&#39;)
+    }
+    command.all &lt;- paste(command.all, command, sep = &quot;,&quot;)
+  })
+</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -728,11 +1096,20 @@ Phil Karlton</p>
 <li><a href="http://shiny.rstudio.com/tutorial">http://shiny.rstudio.com/tutorial</a></li>
 </ul>
 
-<p>Massive Open Online Courses:</p>
+<p>Google Group:</p>
 
 <ul>
-<li>CS109 Data Science, School of Engineering and Applied Sciences <a href="http://cs109.github.io/2014/">http://cs109.github.io/2014/</a></li>
-<li>Developing Data Products by Brian Caffo, PhD, Jeff Leek, PhD, Roger D. Peng, PhD, John Hopkins University, Bloomberg School of Public Health (part of Data Science specialisation)</li>
+<li><a href="https://groups.google.com/d/forum/shiny-discuss">https://groups.google.com/d/forum/shiny-discuss</a></li>
+</ul>
+
+<p>Online Courses:</p>
+
+<!-- 
+- CS109 Data Science, Harvard School of Engineering and Applied Sciences http://cs109.github.io/2014/
+ -->
+
+<ul>
+<li>Developing Data Products by Brian Caffo, Jeff Leek, and Roger D. Peng, John Hopkins University, Bloomberg School of Public Health <a href="https://www.coursera.org/course/devdataprod">https://www.coursera.org/course/devdataprod</a></li>
 </ul>
 
   </article>
@@ -791,224 +1168,320 @@ Phil Karlton</p>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=7 title=''>
+        data-slide=7 title='rCharts Polyplot'>
          7
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=8 title='Reactive programming model'>
+        data-slide=8 title='rCharts Polyplot'>
          8
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=9 title='Example App'>
+        data-slide=9 title='Reactive programming model'>
          9
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=10 title='histogram'>
+        data-slide=10 title='Example App'>
          10
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=11 title='Input Controls'>
+        data-slide=11 title='histogram'>
          11
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=12 title='Input Controls 1'>
+        data-slide=12 title='histogram'>
          12
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=13 title='Input Controls 2'>
+        data-slide=13 title='histogram'>
          13
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=14 title='Example App'>
+        data-slide=14 title='Input Controls'>
          14
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=15 title='k-means'>
+        data-slide=15 title='Input Controls 1'>
          15
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=16 title='Display Reactive Output'>
+        data-slide=16 title='Input Controls 2'>
          16
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=17 title='renderPrint and renderPlot 1: ICIO Barplot by Industry'>
+        data-slide=17 title='Example App'>
          17
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=18 title='renderPrint and renderPlot 2: ICIO Selection Matrix'>
+        data-slide=18 title='k-means'>
          18
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=19 title='renderPrint and renderPlot 3: STAN R&amp;D'>
+        data-slide=19 title='k-means'>
          19
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=20 title='renderTable and renderChart: LFS Share'>
+        data-slide=20 title='k-means'>
          20
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=21 title='renderDataTable: STAN Indicators'>
+        data-slide=21 title='Display Reactive Output'>
          21
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=22 title='downloadHandler: SDMX Browser'>
+        data-slide=22 title='renderPrint and renderPlot 1: ICIO Barplot by Industry'>
          22
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=23 title='downloadHandler: STAN R&amp;D'>
+        data-slide=23 title='renderPrint and renderPlot 1: ICIO Barplot by Industry'>
          23
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=24 title='R Calculations'>
+        data-slide=24 title='renderPrint and renderPlot 1: ICIO Barplot by Industry'>
          24
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=25 title='Example App'>
+        data-slide=25 title='renderPrint and renderPlot 2: ICIO Selection Matrix'>
          25
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=26 title='STAN Indicators'>
+        data-slide=26 title='renderPrint and renderPlot 2: ICIO Selection Matrix'>
          26
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=27 title='Example App'>
+        data-slide=27 title='renderPrint and renderPlot 3: STAN R&amp;D'>
          27
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=28 title='ICIO Foreign Demand Domestic Value Added 1'>
+        data-slide=28 title='renderTable and renderChart: LFS Share'>
          28
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=29 title='ICIO Foreign Demand Domestic Value Added 2'>
+        data-slide=29 title='renderDataTable: STAN Indicators'>
          29
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=30 title='Integrating Applications'>
+        data-slide=30 title='downloadHandler: SDMX Browser'>
          30
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=31 title='Radiant: Data'>
+        data-slide=31 title='downloadHandler: STAN R&amp;D'>
          31
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=32 title='Radiant: Visualize'>
+        data-slide=32 title='R Calculations'>
          32
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=33 title='Radiant: Report'>
+        data-slide=33 title='Example App'>
          33
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=34 title='Advanced Example'>
+        data-slide=34 title='STAN Indicators'>
          34
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=35 title=''>
+        data-slide=35 title='Example App'>
          35
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=36 title=''>
+        data-slide=36 title='ICIO Foreign Demand Domestic: couD, couX, indX'>
          36
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=37 title=''>
+        data-slide=37 title='ICIO Foreign Demand Domestic Value Added: calculation + aggregation'>
          37
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=38 title='SDMX Browser: DataTables'>
+        data-slide=38 title='ICIO Foreign Demand Domestic Value Added: aceEditor'>
          38
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=39 title='SDMX Browser: Plots'>
+        data-slide=39 title='Integrating Applications'>
          39
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=40 title='Going Public - Server Hosting'>
+        data-slide=40 title=''>
          40
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=41 title='System Architecture'>
+        data-slide=41 title='Radiant: Data'>
          41
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=42 title='How to get started'>
+        data-slide=42 title='Radiant: Visualize'>
          42
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=43 title='Questions?'>
+        data-slide=43 title='Radiant: Report'>
          43
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=44 title=''>
+         44
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=45 title=''>
+         45
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=46 title=''>
+         46
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=47 title='Advanced Example'>
+         47
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=48 title=''>
+         48
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=49 title=''>
+         49
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=50 title=''>
+         50
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=51 title=''>
+         51
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=52 title=''>
+         52
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=53 title=''>
+         53
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=54 title='SDMX Browser: DataTables'>
+         54
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=55 title='SDMX Browser: Plots'>
+         55
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=56 title='Going Public - Server Hosting'>
+         56
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=57 title='System Architecture'>
+         57
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=58 title='How to get started'>
+         58
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=59 title='Questions?'>
+         59
       </a>
     </li>
   </ul>

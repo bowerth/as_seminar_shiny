@@ -5,7 +5,7 @@ author      : Bo Werth
 job         : Statistician STI/EAS
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  # {highlight.js, prettify, highlight}
-hitheme     : tomorrow      #
+hitheme     : tomorrow      # {arta, ascetic, brown_paper, dark, default, far, github, googlecode, hemisu-light, idea, ir_black, magula, monokai, pojoaque, school_book, solarized_dark, solarized_light, sunburst, tomorrow_night, vs, xcode, zenburn}
 widgets     : []            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 knit        : slidify::knit2slides
@@ -118,18 +118,40 @@ replication of tableau visualisation [Percentage of employed who are senior mana
 
 --- .class #id
 
-<p style="text-align:center"><img src="assets/img/runApp_rChartsPolyplot.png" alt="rChartsPolyplot app" style="height: 550px"/></p>
+### rCharts Polyplot
+
+<p style="text-align:center"><img src="assets/img/runApp_rChartsPolyplot.png" alt="rChartsPolyplot app"/></p>
+
+--- .class #id
+
+### rCharts Polyplot
+
+
+```{r, eval=FALSE}
+  ## ui.R
+  selectInput(inputId = "country")
+```
+
+
+```{r, eval=FALSE}
+  ## server.R
+  output$chart2 <- renderChart({
+    data.country = subset(dat2m, country == input$country)
+    p2 <- rPlot(value ~ year, color = 'gender', type = 'line', data = data.country)
+    return(p2)
+})
+```
 
 --- .class #id
 
 ## Reactive programming model
-### Reactive conductors
+### Reactive expressions as conductors
 
-The amount of computation can be reduced by adding a reactive conductor in between the source and endpoints:
+The amount of computation can be reduced by adding a reactive expression in between the source and endpoints:
 
 <p style="text-align:center"><img src="assets/img/reactive_programming_model_schema_conductor.png" alt="reactive conductor" style="height: 125px"/></p>
 
-Reactive conductors are placed somewhere in between sources and endpoints on the reactive graph. They are typically used for encapsulating slow operations. Try to prevent unnecessary work, especially if the app needs to do a lot of slow computation.
+Reactive expressions are placed somewhere in between sources and endpoints on the reactive graph. They are typically used for encapsulating slow operations. Try to prevent unnecessary work, especially if the app needs to do a lot of slow computation.
 
 http://shiny.rstudio.com/articles/reactivity-overview.html
 
@@ -150,6 +172,41 @@ simple histogram with slider to change the binwidth
 ### histogram
 
 <p style="text-align:center"><img src="assets/img/runApp_histogram.png" alt="histogram app" style="height: 550px"/></p>
+
+--- .class #id
+
+### histogram
+
+```{r, eval=FALSE}
+  ## ui.R
+  sliderInput("bins", "Number of bins:", min = 1, max = 50, value = 30)
+
+  plotOutput("distPlot")
+```
+
+```{r, eval=FALSE}
+  ## server.R
+  bins <- reactive({
+    seq(min(x), max(x), length.out = input$bins + 1)
+  })
+  
+  output$distPlot <- renderPlot({
+    hist(x, breaks = bins(), col = 'darkgray', border = 'white')
+  })
+```
+
+--- .class #id
+
+### histogram
+
+Reactive Evaluation
+
+When you change “Number of bins", `input$bins` will change and `renderPlot` will re-execute. 
+
+1. `renderPlot` will call `bins()`
+2. `bins` will check that the bins widget has changed
+3. `bins` will return its new value
+4. `renderPlot` will re-draw the chart with the correct number of bins.
 
 --- .class #id
 
@@ -198,14 +255,56 @@ k-means clustering, "X" marking the center of the cluster, points coloured accor
 
 --- .class #id
 
+### k-means
+
+```{r, eval=FALSE}
+  ## ui.R
+  selectInput('xcol', 'X Variable', names(iris)),
+  selectInput('ycol', 'Y Variable', names(iris), selected=names(iris)[2]),
+  numericInput('clusters', 'Cluster count', 3)
+```
+
+```{r, eval=FALSE}
+  ## server.R
+  selectedData <- reactive({ iris[, c(input$xcol, input$ycol)] })
+  clusters <- reactive({ kmeans(selectedData(), input$clusters) })
+  output$plot1 <- renderPlot({
+    par(mar = c(5.1, 4.1, 0, 2.1))
+    plot(selectedData(), col=clusters()$cluster)
+    points(clusters()$centers, pch=4, ces=2)
+  })
+```
+
+--- .class #id
+
+### k-means
+
+Reactive Evaluation
+
+When you change “Cluster count", `input$clusters` will change and `renderPlot` will re-execute. 
+
+1. `renderPlot` will call `clusters()`
+2. `clusters` will check that the clusters widget has changed
+3. `clusters` will return its new value
+4. `renderPlot` will re-draw the chart with the correct number of clusters.
+
+--- .class #id
+
 ## Display Reactive Output
+
+Each entry to output should contain the output of one of Shiny’s `render*` functions
 
 - renderPrint: print summary statistics etc.
 - renderPlot: base plot or lattice graphics
 - renderTable: basic table output
 - renderChart: interactive [rCharts](http://rcharts.io/) using d3.js (`js`)
 - renderDataTable: table with embedded controls (`js`)
+- renderUI a tag object or HTML
 - downloadHandler: trigger file download
+
+The expression can be a simple statment or a complicated function call. It will re-run the expression everytime an upstream object changes. The expression must return an object (text, plot etc.) that is supported by the respective `render*` function.
+
+Source: http://shiny.rstudio.com/tutorial/lesson4/
 
 --- .class #id
 
@@ -214,8 +313,60 @@ k-means clustering, "X" marking the center of the cluster, points coloured accor
 
 --- .class #id
 
+### renderPrint and renderPlot 1: ICIO Barplot by Industry
+
+```{r, eval=FALSE}
+  ## renderPlot
+  barplot(data.plot$value,
+    beside = TRUE,
+    names = data.plot$names, las = 2, cex.names = .8,
+    ylab = unit.string,
+    col = "#4F81BD")
+  par(op)
+  mtext(title.string, line = 2, font = 2, cex = 1.2)
+  op <- par(usr=c(0,0.1,0,1.05), xpd=NA)
+  legend(0, 1.1, legend=data.sort, cex=0.8, box.col = NA, horiz = TRUE)
+```
+
+--- .class #id
+
+### renderPrint and renderPlot 1: ICIO Barplot by Industry
+
+```{r, eval=FALSE}
+  ## renderPrint
+  blurb.string <- paste0(
+    as.character(blurb$couS), ' ', tolower(blurb$coef), ', in source industry, \n',
+    'generated by ', blurb$couD, ' ', tolower(blurb$demand), ' of \n',
+    blurb$couX1, ' exports of ', blurb$indX, ', \n',
+    blurb$year, '.')
+  blurb.string.template <- paste0('<couS><coef>, in source industry,\n',
+    'generated by <couD><demand> of \n',
+    '<couX> exports of <indX>, \n',
+    '<year>.')
+```
+
+--- .class #id
+
 ### renderPrint and renderPlot 2: ICIO Selection Matrix
 <p style="text-align:center"><img src="assets/img/runApp_industry_icioFddva_plots_dimensions.png" alt="industry app" style="height: 550px"/></p>
+
+--- .class #id
+
+### renderPrint and renderPlot 2: ICIO Selection Matrix
+
+```{r, eval=FALSE}
+  ## renderPlot
+  x <- data.conv1
+  x <- x[, rev(seq_len(ncol(x)))]
+  xLabels <- rownames(x)
+  yLabels <- colnames(x)
+  i <- image(1:length(xLabels), 1:length(yLabels), x,
+   col = c("white", "green"),
+   xlab = "Export Country + Demand or Final Expenditure Industry (couX + indX)",
+   ylab = "Demand Country (couD)",
+   axes = FALSE)
+  return(i)
+```
 
 --- .class #id
 
@@ -283,22 +434,27 @@ k-means clustering, "X" marking the center of the cluster, points coloured accor
 - subset data from multidimensional arrays
 - perform calculations:
 
-```
-data.couX.indX <- data.conv1 * data.demand
-aaa <- xB %*% data.couX.indX
-aaa <- apply(aaa, 1, sum)
+```{r, eval=FALSE}
+  data.couX.indX <- data.conv1 * data.demand
+  aaa <- xB %*% data.couX.indX
+  aaa <- apply(aaa, 1, sum)
 ```
 
 - aggregate and display results (table, barchart, map)
 
 --- .class #id
 
-### ICIO Foreign Demand Domestic Value Added 1
+### ICIO Foreign Demand Domestic: couD, couX, indX
+<p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_plots_dimensions_nafta.png" alt="industry app" style="height: 500px"/></p>
+
+--- .class #id
+
+### ICIO Foreign Demand Domestic Value Added: calculation + aggregation
 <p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_aggregation.png" alt="industry app" style="height: 500px"/></p>
 
 --- .class #id
 
-### ICIO Foreign Demand Domestic Value Added 2
+### ICIO Foreign Demand Domestic Value Added: aceEditor
 <p style="text-align:center;"><img src="assets/img/runApp_industry_icioFddva_edit.png" alt="industry app" style="height: 550px"/></p>
 
 --- .class #id
@@ -321,6 +477,27 @@ Requires systematic structure:
 
 --- .class #id
 
+```{r, eval=FALSE}
+  ## radiant.R
+  statPanel <- function(fun_name, rfun_label, fun_label, fun_tabs) {
+    sum_name <- paste0("summary_", fun_label)
+    plot_name <- paste0("plots_", fun_label)
+    output[[sum_name]] <- renderPrint({
+      result <- get(rfun_label)()
+      get(sum_name)()
+    })
+    output[[plot_name]] <- renderPlot({
+      result <- get(rfun_label)()
+      get(plot_name)()
+    })
+    string.tabPanel <- paste0('tabPanel("Plots", plotOutput(plot_name, height = "100%"),\n',
+      'verbatimTextOutput(sum_name))')
+    string.tabsetPanel <- paste0(string.tabsetPanel, string.tabPanel, sep = ',\n')
+    return(eval(parse(text=paste0('tabsetPanel(id="tabs_',fun_label,'",\n',string.tabsetPanel,')'))))}
+```
+
+--- .class #id
+
 ### Radiant: Data
 <p style="text-align:center;"><img src="assets/img/runApp_radiant_data_manage.png" alt="industry app" style="height: 500px"/></p>
 
@@ -333,6 +510,72 @@ Requires systematic structure:
 
 ### Radiant: Report
 <p style="text-align:center;"><img src="assets/img/runApp_radiant_data_report_preview.png" alt="industry app" style="height: 550px"/></p>
+
+--- .class #id
+
+```{r, eval=FALSE}
+  rmd_example <- "## Sample report in Markdown
+  This is an example report in markdown. You can embed R code to be executed.
+  '''{r}
+  rnorm(5)
+  x <- 14*3
+  '''
+  ### Inline code
+  Inline R code, e.g., the value of x is 'r x'.
+
+  ### Math
+  LaTeX math:  $f(\\\\alpha, \\\\beta) \\\\propto x^{\\\\alpha-1}(1-x)^{\\\\beta-1}$.
+
+  ### Figures
+  '''{r}
+  hist(rnorm(100))
+  '''
+  "
+```
+
+--- .class #id
+
+```{r, eval=FALSE}
+  ## Radiant report UI
+  output$report <- renderUI({
+    div(class="row-fluid", 
+      div(class="span6",
+        aceEditor("rmd_report", mode="markdown", value=state_init("rmd_report",rmd_example)),
+        ## vimKeyBinding=vimKeyBinding),
+        actionButton("evalRmd", "Update"),
+        downloadButton('saveHTML', 'Save HTML'),
+        downloadButton('saveRmd', 'Save Rmd'), tags$br(), tags$br(),
+        fileInput('loadRmd', 'Load Rmd', multiple=TRUE)),
+
+      div(class="span6",
+        htmlOutput("rmd_knitDoc"))
+      )
+  })
+```
+
+--- .class #id
+
+```{r, eval=FALSE}
+  ## Radiant report functions
+  output$rmd_knitDoc <- renderUI({
+    if(is.null(input$evalRmd) || input$evalRmd == 0) return()
+      isolate({
+        if(running_local && input$rmd_report != "") {
+          return(HTML(paste(knit2html(text = input$rmd_report, fragment.only = TRUE, quiet = TRUE), 
+            '<script>', 'MathJax.Hub.Typeset();', '</script>', 
+            sep = '\n')))
+        }})
+  })
+
+  output$saveHTML <- downloadHandler(
+    filename = function() {"report.html"},
+    content = function(file) {
+     isolate({
+      html <- knit2html(text = input$rmd_report, quiet = TRUE, 
+        options=c("mathjax", "base64_images"))
+      cat(html, file = file, sep = '\n')
+    })})
+```
 
 --- .class #id
 
@@ -357,6 +600,71 @@ Requires systematic structure:
 --- .class #id
 
 <p style="text-align:center;"><img src="assets/img/runApp_industry_sdmxBrowser_ui_flow.png" alt="industry app"/></p>
+
+--- .class #id
+
+```{r, eval=FALSE}
+  ## Provider
+  output$uisB_provider <- renderUI({
+    ui.sdmxbrowser_provider <- getProviders()
+    selectInput("sdmxbrowser_provider", "Provider:", ui.sdmxbrowser_provider,
+      selected = state_init_list("sdmxbrowser_provider","EUROSTAT", ui.sdmxbrowser_provider),
+      multiple = FALSE)
+  })
+```
+
+```{r, eval=FALSE}
+  ## Flow
+  sdmxbrowser_provider <- input$sdmxbrowser_provider
+  if (input$sdmxbrowser_flow_updateButton != 0) {
+    load("data/data_init/sdmxBrowser.rda")
+  }
+  ui.sdmxbrowser_flow <- ui.sdmxBrowser.flows.list[[sdmxbrowser_provider]]
+  selectInput("sdmxbrowser_flow", "Flow:", c("", ui.sdmxbrowser_flow),
+    selected = "", multiple = FALSE)
+```
+
+--- .class #id
+
+```{r, eval=FALSE}
+  ## Dimensions
+  .sdmxbrowser_dimensions_all <- reactive({
+    sdmxbrowser_dimensions_all<- names(getDimensions(input$sdmxbrowser_provider,
+      input$sdmxbrowser_flow))
+    return(sdmxbrowser_dimensions_all)
+  })
+  output$uisB_dimensions <- renderUI({
+    if (input$sdmxbrowser_flow=="") return()
+      sdmxbrowser_dimensions_all <- .sdmxbrowser_dimensions_all()
+    selectInput("sdmxbrowser_dimensions", "Filter Dimensions:", sdmxbrowser_dimensions_all,
+      selected = sdmxbrowser_dimensions_all,
+      multiple = TRUE, selectize = FALSE)
+  })
+```
+
+--- .class #id
+
+```{r, eval=FALSE}
+  ## Dimension Codes
+  .sdmxbrowser_dimensioncodes <- reactive({
+    sdmxbrowser_dimensions <- input$sdmxbrowser_dimensions
+    sdmxbrowser_dimensioncodes <- as.list(sdmxbrowser_dimensions)
+    sdmxbrowser_dimensioncodes <- sapply(sdmxbrowser_dimensioncodes,function(x) NULL)
+    names(sdmxbrowser_dimensioncodes) <- sdmxbrowser_dimensions
+    return(sdmxbrowser_dimensioncodes)
+  })
+  output$uisB_dimensioncodes <- renderUI({
+    for (d in seq(along = sdmxbrowser_dimensions)) {
+      command <- paste0('selectInput("sdmxbrowser_dimensioncodes_', d,
+        '", "Select ', sdmxbrowser_dimensions[d],
+        ':", c("',
+          gsub(', ', '", "', toString(sdmxbrowser_dimensioncodes[[d]])),
+          '"), selected = "', sdmxbrowser_dimensioncodes[[d]][1], 
+      '", multiple = TRUE, selectize = TRUE)')
+    }
+    command.all <- paste(command.all, command, sep = ",")
+  })
+```
 
 --- .class #id
 
@@ -401,10 +709,16 @@ Shiny Tutorial:
 
 - http://shiny.rstudio.com/tutorial
 
-Massive Open Online Courses:
+Google Group:
 
-- CS109 Data Science, School of Engineering and Applied Sciences http://cs109.github.io/2014/
-- Developing Data Products by Brian Caffo, PhD, Jeff Leek, PhD, Roger D. Peng, PhD, John Hopkins University, Bloomberg School of Public Health (part of Data Science specialisation)
+- https://groups.google.com/d/forum/shiny-discuss
+
+Online Courses:
+
+<!-- 
+- CS109 Data Science, Harvard School of Engineering and Applied Sciences http://cs109.github.io/2014/
+ -->
+ - Developing Data Products by Brian Caffo, Jeff Leek, and Roger D. Peng, John Hopkins University, Bloomberg School of Public Health https://www.coursera.org/course/devdataprod
 
 --- .class #id
 
